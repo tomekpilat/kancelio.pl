@@ -1,0 +1,10 @@
+# OS / editors
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Local files / secrets (the teaser has none, but good hygiene)
+.env
+*.local

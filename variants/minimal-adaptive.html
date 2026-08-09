@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>Kancelio.pl — Wkrótce</title>
+<meta name="description" content="Kancelio.pl — cyfrowa kancelaria notarialna. Dołącz do listy oczekujących na wczesny dostęp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='6' fill='%230B1325'/%3E%3Ctext x='40' y='70' font-family='Georgia,serif' font-size='58' font-weight='700' fill='%23F5F5F7' text-anchor='middle'%3EK%3C/text%3E%3Ccircle cx='66' cy='64' r='7' fill='%23C5A880'/%3E%3C/svg%3E">
+<style>
+  :root{
+    color-scheme: light dark;
+    --bg:#FAF9F6;
+    --text:#0B1325;
+    --muted:#5A6172;
+    --accent:#C5A880;        /* złota kropka */
+    --eyebrow:#A98A5C;
+    --field-bg:#FFFFFF;
+    --field-border:#E7E2D6;
+    --placeholder:#9AA0AD;
+    --btn-bg:#0B1325;
+    --btn-fg:#FFFFFF;
+    --btn-bg-hover:#16233D;
+    --focus:rgba(197,168,128,.18);
+    --danger:#7F1D1D;
+    --foot:#B4AE9E;
+    --radius:6px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0B1325;          /* granat gabinetowy */
+      --text:#F5F5F7;        /* kość słoniowa */
+      --muted:#9AA2B2;
+      --accent:#E5D3B3;      /* jasne złoto kruszcowe (akcent Dark Mode) */
+      --eyebrow:#C5A880;
+      --field-bg:#121B2A;
+      --field-border:rgba(229,211,179,.32);
+      --placeholder:#8A93A6;
+      --btn-bg:#E5D3B3;      /* w ciemności przycisk staje się złoty… */
+      --btn-fg:#0B1325;      /* …z granatową strzałką */
+      --btn-bg-hover:#D8C4A0;
+      --focus:rgba(229,211,179,.30);
+      --danger:#E8A0A0;
+      --foot:#5A6478;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg)}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--text);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:40px 24px;
+    text-align:center;
+  }
+  .stage{max-width:440px;width:100%}
+
+  .mark{
+    font-family:'Playfair Display',serif;font-weight:700;
+    font-size:24px;letter-spacing:.03em;color:var(--text);
+    margin-bottom:56px;
+  }
+  .mark .dot,.mark .pl{color:var(--accent);font-weight:400}
+
+  .eyebrow{
+    font-size:11px;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--eyebrow);margin-bottom:22px;
+  }
+  h1{
+    font-family:'Playfair Display',serif;font-weight:400;
+    font-size:clamp(30px,6vw,42px);line-height:1.24;letter-spacing:.01em;color:var(--text);
+  }
+  .lede{font-size:15.5px;color:var(--muted);margin:20px auto 0;max-width:34ch}
+
+  form{margin-top:38px;position:relative}
+  .input-wrap{position:relative}
+  input[type="email"]{
+    width:100%;font-family:'Inter';font-size:15px;color:var(--text);
+    padding:16px 58px 16px 18px;
+    border:1px solid var(--field-border);border-radius:var(--radius);
+    background:var(--field-bg);transition:border-color .15s, box-shadow .15s;
+  }
+  input[type="email"]::placeholder{color:var(--placeholder)}
+  input[type="email"]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--focus)}
+  .submit{
+    position:absolute;top:6px;right:6px;bottom:6px;width:44px;
+    border:none;border-radius:calc(var(--radius) - 2px);background:var(--btn-bg);
+    color:var(--btn-fg);cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:background .15s, transform .05s;
+  }
+  .submit:hover{background:var(--btn-bg-hover)}
+  .submit:active{transform:scale(.96)}
+  .submit:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .submit svg{width:18px;height:18px}
+  .honey{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  .note{font-size:12px;color:var(--placeholder);margin-top:16px;letter-spacing:.01em}
+  .status{margin-top:12px;font-size:13px;min-height:1px}
+  .status.err{color:var(--danger);font-weight:500}
+
+  .success{display:none;margin-top:8px}
+  .success.show{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .success .dot-seal{width:10px;height:10px;border-radius:50%;background:var(--accent);margin:0 auto 20px}
+  .success h2{font-family:'Playfair Display',serif;font-weight:400;font-size:26px;color:var(--text);margin-bottom:10px}
+  .success p{font-size:14.5px;color:var(--muted);max-width:32ch;margin:0 auto}
+
+  .foot{margin-top:64px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--foot)}
+
+  @media (prefers-reduced-motion:reduce){.success.show{animation:none}}
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="mark">Kancelio<span class="dot">.</span><span class="pl">pl</span></div>
+
+    <div id="intro">
+      <div class="eyebrow">Wkrótce</div>
+      <h1>Notariat w cyfrowej oprawie.</h1>
+      <p class="lede">Dołącz do listy oczekujących na wczesny dostęp.</p>
+
+      <!-- To collect emails: replace the form action with your own Formspree endpoint, e.g. https://formspree.io/f/abcdwxyz -->
+      <form id="waitlist" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+        <div class="input-wrap">
+          <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="Twój adres e-mail" aria-label="Adres e-mail" required>
+          <button type="submit" class="submit" aria-label="Zapisz się">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+        <input type="text" name="_gotcha" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      </form>
+      <p class="note">Zero spamu. Jedna wiadomość, gdy ruszamy.</p>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+    </div>
+
+    <div class="success" id="success" role="status" aria-live="polite">
+      <div class="dot-seal" aria-hidden="true"></div>
+      <h2>Jesteś na liście.</h2>
+      <p>Odezwiemy się na wskazany adres, gdy otworzymy wczesny dostęp.</p>
+    </div>
+
+    <div class="foot">© 2026 Kancelio.pl</div>
+  </div>
+
+<script>
+  const form = document.getElementById('waitlist');
+  const intro = document.getElementById('intro');
+  const statusEl = document.getElementById('status');
+  const successEl = document.getElementById('success');
+  const emailInput = form.querySelector('input[type="email"]');
+  const submitBtn = form.querySelector('.submit');
+  const isValid = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+  function showSuccess(){ intro.style.display='none'; successEl.classList.add('show'); }
+  function showError(msg){ statusEl.textContent=msg; statusEl.className='status err'; }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusEl.textContent=''; statusEl.className='status';
+    const email = emailInput.value.trim();
+    if(!isValid(email)){ showError('Podaj poprawny adres e-mail.'); emailInput.focus(); return; }
+    const action = form.getAttribute('action');
+    if(action.includes('YOUR_FORM_ID')){ showSuccess(); return; }
+    submitBtn.disabled = true;
+    try{
+      const res = await fetch(action, {method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}});
+      if(res.ok){ showSuccess(); } else { throw new Error('bad'); }
+    }catch(err){ showError('Coś poszło nie tak. Spróbuj ponownie.'); submitBtn.disabled=false; }
+  });
+</script>
+</body>
+</html>

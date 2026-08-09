@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Kancelio.pl — Wkrótce · Wersja Prestiżowa</title>
+<meta name="description" content="Kancelio.pl — cyfrowa kancelaria notarialna. Dołącz do listy oczekujących na wczesny dostęp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='4' fill='%230B1325'/%3E%3Crect x='6' y='6' width='88' height='88' rx='2' fill='none' stroke='%23C5A880' stroke-width='2'/%3E%3Ctext x='42' y='70' font-family='Georgia,serif' font-size='56' fill='%23F5F5F7' text-anchor='middle'%3EK%3C/text%3E%3Ccircle cx='67' cy='64' r='6' fill='%23C5A880'/%3E%3C/svg%3E">
+<style>
+  :root{
+    color-scheme:dark;
+    --navy:#0B1325;--navy-2:#121B2A;
+    --ivory:#F5F5F7;
+    --gold:#C5A880;--gold-light:#E5D3B3;--gold-deep:#A98A5C;
+    --muted:#C7CCD6;--muted-2:#9AA2B2;
+    --radius:4px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--navy)}
+  body{
+    font-family:'Inter',system-ui,sans-serif;color:var(--ivory);line-height:1.65;
+    -webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;
+  }
+  .bg{
+    position:fixed;inset:0;z-index:-1;
+    background:
+      radial-gradient(1000px 560px at 50% -8%, rgba(197,168,128,.18), transparent 60%),
+      radial-gradient(760px 460px at 50% 118%, rgba(197,168,128,.08), transparent 62%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+  }
+
+  .topbar{max-width:1080px;margin:0 auto;width:100%;padding:26px 28px 0;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-family:'Playfair Display',serif;font-weight:400;font-size:24px;letter-spacing:.06em;color:var(--ivory)}
+  .logo .pl{color:var(--gold)}
+  .soon-pill{font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-light);border:1px solid var(--gold);padding:8px 16px;border-radius:var(--radius)}
+
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:52px 28px 24px}
+
+  /* ceremonial double frame with corner marks */
+  .frame{
+    max-width:700px;width:100%;position:relative;
+    border:1px solid var(--gold);
+    padding:clamp(40px,7vw,72px) clamp(28px,5.5vw,64px);
+    background:linear-gradient(180deg, rgba(28,37,51,.55), rgba(11,19,37,.25));
+    box-shadow:0 18px 50px -18px rgba(0,0,0,.6);
+  }
+  .frame::before{content:"";position:absolute;inset:8px;border:1px solid rgba(197,168,128,.45);pointer-events:none}
+  .corner{position:absolute;width:22px;height:22px;pointer-events:none}
+  .corner::before,.corner::after{content:"";position:absolute;background:var(--gold)}
+  .corner::before{width:22px;height:1px}
+  .corner::after{width:1px;height:22px}
+  .c-tl{top:-1px;left:-1px}
+  .c-tr{top:-1px;right:-1px;transform:scaleX(-1)}
+  .c-bl{bottom:-1px;left:-1px;transform:scaleY(-1)}
+  .c-br{bottom:-1px;right:-1px;transform:scale(-1)}
+  .c-tl::before,.c-tr::before,.c-bl::before,.c-br::before{top:0;left:0}
+  .c-tl::after,.c-tr::after,.c-bl::after,.c-br::after{top:0;left:0}
+
+  .frame > .hero{position:relative;text-align:center}
+
+  .stamp{
+    width:82px;height:82px;margin:0 auto 30px;border:1px solid var(--gold);border-radius:var(--radius);
+    display:flex;align-items:center;justify-content:center;position:relative;
+    background:radial-gradient(circle at 50% 32%, rgba(197,168,128,.14), transparent 70%);
+  }
+  .stamp::after{content:"";position:absolute;inset:6px;border:1px solid rgba(197,168,128,.5);border-radius:2px}
+  .stamp .k{font-family:'Playfair Display',serif;font-weight:500;font-size:44px;color:var(--gold-light);line-height:1;position:relative}
+  .stamp .k .dot{position:absolute;bottom:6px;right:-12px;width:9px;height:9px;border-radius:50%;background:var(--gold)}
+
+  .eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+  h1{
+    font-family:'Playfair Display',serif;font-weight:400;letter-spacing:.03em;
+    font-size:clamp(34px,5.8vw,54px);line-height:1.16;color:var(--ivory);
+  }
+  h1 .gild{
+    font-style:italic;
+    background:linear-gradient(105deg, var(--gold-deep) 0%, var(--gold-light) 45%, var(--gold) 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .ornament{display:flex;align-items:center;justify-content:center;gap:12px;margin:28px auto}
+  .ornament .l{width:52px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .ornament .r{width:52px;height:1px;background:linear-gradient(90deg,var(--gold),transparent)}
+  .ornament .d{width:5px;height:5px;transform:rotate(45deg);background:var(--gold)}
+  .lede{font-size:clamp(15px,2.1vw,17.5px);color:var(--muted);max-width:48ch;margin:0 auto;line-height:1.7}
+
+  .form-card{margin:36px auto 0;max-width:500px}
+  form{display:flex;gap:10px}
+  .email-wrap{flex:1}
+  input[type="email"]{
+    width:100%;font-family:'Inter';font-size:15px;color:var(--ivory);
+    padding:15px 16px;border:1px solid var(--gold);border-radius:var(--radius);
+    background:rgba(11,19,37,.65);transition:border-color .15s, box-shadow .15s;
+  }
+  input[type="email"]::placeholder{color:#8A93A6}
+  input[type="email"]:focus{outline:none;border-color:var(--gold-light);box-shadow:0 0 0 3px rgba(197,168,128,.28)}
+  .honey{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  button.cta{
+    font-family:'Inter';font-size:15px;font-weight:600;color:var(--navy);white-space:nowrap;letter-spacing:.04em;
+    background:linear-gradient(120deg, var(--gold-light) 0%, var(--gold) 55%, var(--gold-deep) 130%);
+    border:1px solid var(--gold);border-radius:var(--radius);padding:15px 28px;cursor:pointer;
+    box-shadow:0 8px 22px -10px rgba(197,168,128,.55);transition:filter .15s, transform .05s;
+  }
+  button.cta:hover{filter:brightness(1.06)}
+  button.cta:active{transform:translateY(1px)}
+  button.cta:focus-visible{outline:2px solid var(--gold-light);outline-offset:2px}
+  button.cta:disabled{opacity:.6;cursor:default}
+
+  .form-note{font-size:12px;color:var(--muted-2);margin-top:15px}
+  .form-note a{color:var(--gold-light);text-decoration:none;border-bottom:1px solid rgba(229,211,179,.4)}
+  .status{margin-top:14px;font-size:13.5px;min-height:1px}
+  .status.err{color:#E8A0A0;font-weight:500}
+
+  .success{max-width:500px;margin:36px auto 0;border:1px solid var(--gold);background:rgba(11,19,37,.6);padding:32px 28px;display:none;position:relative}
+  .success::after{content:"";position:absolute;inset:5px;border:1px solid rgba(197,168,128,.4);pointer-events:none}
+  .success.show{display:block;animation:fade .45s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .success .seal{width:50px;height:50px;border:1px solid var(--gold);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--gold-light);font-size:22px}
+  .success h3{font-family:'Playfair Display',serif;font-weight:500;font-size:23px;margin-bottom:8px;color:var(--ivory);letter-spacing:.03em}
+  .success p{color:var(--muted);font-size:14.5px}
+
+  .values{max-width:700px;margin:48px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid rgba(197,168,128,.4);border-bottom:1px solid rgba(197,168,128,.4);text-align:center}
+  .value{padding:22px 18px;border-right:1px solid rgba(197,168,128,.25)}
+  .value:last-child{border-right:none}
+  .value h4{font-family:'Playfair Display',serif;font-size:15.5px;font-weight:500;color:var(--gold-light);letter-spacing:.04em;margin-bottom:5px}
+  .value p{font-size:12.5px;color:var(--muted-2);line-height:1.5}
+
+  footer{max-width:1080px;margin:52px auto 0;width:100%;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid rgba(197,168,128,.3)}
+  .foot-logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;letter-spacing:.06em;color:var(--muted)}
+  .foot-logo .pl{color:var(--gold)}
+  .foot-r{font-size:11.5px;letter-spacing:.06em;color:#6E7688}
+
+  .rise{opacity:0;transform:translateY(16px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+  .d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.4s}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @media (max-width:680px){
+    form{flex-direction:column}button.cta{width:100%}
+    .values{grid-template-columns:1fr}
+    .value{border-right:none;border-bottom:1px solid rgba(197,168,128,.25)}
+    .value:last-child{border-bottom:none}
+    footer{justify-content:center;text-align:center}
+  }
+  @media (prefers-reduced-motion:reduce){.rise{opacity:1;transform:none;animation:none}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="topbar rise d1">
+  <div class="logo">Kancelio<span class="pl">.pl</span></div>
+  <div class="soon-pill">Wkrótce</div>
+</div>
+
+<main>
+  <div class="frame rise d2">
+    <span class="corner c-tl" aria-hidden="true"></span>
+    <span class="corner c-tr" aria-hidden="true"></span>
+    <span class="corner c-bl" aria-hidden="true"></span>
+    <span class="corner c-br" aria-hidden="true"></span>
+
+    <div class="hero">
+      <div class="stamp" aria-hidden="true"><span class="k">K<span class="dot"></span></span></div>
+      <div class="eyebrow">Wczesny dostęp · Lista oczekujących</div>
+      <h1>Kancelaria notarialna<br><span class="gild">w cyfrowej oprawie.</span></h1>
+      <div class="ornament" aria-hidden="true"><span class="l"></span><span class="d"></span><span class="r"></span></div>
+      <p class="lede">Przygotowanie, weryfikacja tożsamości i podpis aktów notarialnych — z powagą wielowiekowej tradycji i precyzją nowoczesnego oprogramowania.</p>
+
+      <div class="form-card">
+        <!-- To collect emails: replace the form action with your own Formspree endpoint, e.g. https://formspree.io/f/abcdwxyz -->
+        <form id="waitlist" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+          <div class="email-wrap">
+            <input type="email" name="email" inputmode="email" autocomplete="email" placeholder="Twój adres e-mail" aria-label="Adres e-mail" required>
+          </div>
+          <input type="text" name="_gotcha" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="cta">Dołącz do listy</button>
+        </form>
+        <p class="form-note">Zero spamu — jedna wiadomość, gdy otwieramy dostęp. <a href="#">Polityka prywatności</a> (RODO).</p>
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+      </div>
+
+      <div class="success" id="success" role="status" aria-live="polite">
+        <div class="seal" aria-hidden="true">✓</div>
+        <h3>Jesteś na liście.</h3>
+        <p>Dziękujemy. Powiadomimy Cię, gdy otworzymy wczesny dostęp do Kancelio.pl.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div style="padding:0 28px">
+  <div class="values rise d3">
+    <div class="value"><h4>Repertorium A cyfrowo</h4><p>Numeracja, taksa i historia czynności bez ręcznych ksiąg.</p></div>
+    <div class="value"><h4>Weryfikacja tożsamości</h4><p>Potwierdzenie danych stawających w bazach referencyjnych.</p></div>
+    <div class="value"><h4>Bezpieczny e-podpis</h4><p>Pełna ścieżka audytu i szyfrowanie end-to-end.</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-logo">Kancelio<span class="pl">.pl</span></div>
+  <div class="foot-r">© 2026 · Dane szyfrowane · WCAG 2.1 AA</div>
+</footer>
+
+<script>
+  const form = document.getElementById('waitlist');
+  const statusEl = document.getElementById('status');
+  const successEl = document.getElementById('success');
+  const btn = form.querySelector('button.cta');
+  const emailInput = form.querySelector('input[type="email"]');
+  const isValid = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  function showSuccess(){ form.parentElement.style.display='none'; successEl.classList.add('show'); successEl.scrollIntoView({behavior:'smooth',block:'center'}); }
+  function showError(msg){ statusEl.textContent=msg; statusEl.className='status err'; }
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusEl.textContent=''; statusEl.className='status';
+    const email = emailInput.value.trim();
+    if(!isValid(email)){ showError('Podaj poprawny adres e-mail.'); emailInput.focus(); return; }
+    const action = form.getAttribute('action');
+    if(action.includes('YOUR_FORM_ID')){ showSuccess(); return; }
+    btn.disabled=true; btn.textContent='Zapisuję…';
+    try{
+      const res = await fetch(action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
+      if(res.ok){ showSuccess(); } else { throw new Error('bad'); }
+    }catch(err){ showError('Coś poszło nie tak. Spróbuj ponownie.'); btn.disabled=false; btn.textContent='Dołącz do listy'; }
+  });
+</script>
+</body>
+</html>

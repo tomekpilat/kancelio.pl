@@ -8,8 +8,9 @@ FROM nginx:alpine
 # Custom config (security headers, gzip, cache policy)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Landing page + variants
+# Landing page + privacy policy + variants
 COPY index.html /usr/share/nginx/html/index.html
+COPY privacy.html /usr/share/nginx/html/privacy.html
 COPY variants/ /usr/share/nginx/html/variants/
 
 EXPOSE 80

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Znajdź specjalistę do swojej sprawy — Kancelio.pl</title>
+  <meta name="description" content="Znajdź notariusza, prawnika, agenta, rzeczoznawcę, eksperta kredytowego i innych specjalistów według miasta, rodzaju sprawy i jej etapu.">
+  <link rel="canonical" href="https://kancelio.pl/specjalisci.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynj6vcLZwOq7UXkJoZbNkc7NwA0c=" crossorigin="">
+  <link rel="stylesheet" href="/assets/directory.css?v=20260818-2"><link rel="stylesheet" href="/assets/specialists.css?v=20260818-1">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Główna nawigacja"><a class="brand" href="/">Kancelio<span>.pl</span></a></nav>
+    <div class="hero center shell">
+      <div class="eyebrow">Specjaliści na każdym etapie</div>
+      <h1>Znajdź właściwą osobę, kiedy jest potrzebna.</h1>
+      <p>Wybierz sprawę i etap procesu. Kancelio podpowie, kogo możesz potrzebować — od agenta i rzeczoznawcy po notariusza, doradcę podatkowego i przeprowadzkę.</p>
+    </div>
+  </header>
+
+  <main class="directory-main shell">
+    <section class="search-panel" aria-label="Wyszukiwanie specjalistów">
+      <form id="specialistSearchForm" class="specialist-search-form">
+        <div><label for="specialistCity">Miasto lub adres</label><input id="specialistCity" autocomplete="street-address" placeholder="np. Mokotowska 10, Warszawa"><small>Adres służy wyłącznie do wyszukania lokalizacji przez OpenStreetMap.</small></div>
+        <div><label for="specialistCase">Rodzaj sprawy</label><select id="specialistCase"><option value="">Wszystkie sprawy</option></select></div>
+        <div><label for="specialistProfession">Specjalista</label><select id="specialistProfession"><option value="">Wszystkie specjalizacje</option></select></div>
+        <div><label for="specialistStage">Etap procesu</label><select id="specialistStage"><option value="">Wszystkie etapy</option></select></div>
+        <button class="button gold" type="submit">Szukaj specjalistów</button>
+      </form>
+      <div id="contextHint" class="search-context hidden" role="status"></div>
+    </section>
+
+    <div id="specialistConfigNotice" class="notice error hidden" role="alert">Katalog wymaga konfiguracji Supabase i najnowszej migracji.</div>
+    <p id="specialistSummary" class="search-summary" role="status" aria-live="polite">Wybierz sprawę, etap, specjalizację lub miasto.</p>
+    <div class="directory-layout">
+      <section id="specialistResults" class="results" aria-label="Wyniki wyszukiwania"></section>
+      <div id="specialistMap" class="directory-map" role="application" aria-label="Mapa specjalistów"></div>
+    </div>
+    <section class="directory-join"><div><div class="eyebrow">Dla ekspertów</div><h2>Pomagasz klientom przejść jeden z tych etapów?</h2><p>Dodaj profil, wskaż obsługiwane sprawy i pojawiaj się dokładnie wtedy, gdy klient potrzebuje Twojej specjalizacji.</p></div><a class="button" href="/dla-specjalistow.html">Dodaj profil specjalisty</a></section>
+  </main>
+
+  <dialog id="specialistContactDialog" aria-labelledby="specialistContactTitle">
+    <div class="dialog-inner"><div class="dialog-head"><div><div class="eyebrow">Chronione dane kontaktowe</div><h2 id="specialistContactTitle">Potwierdź, że nie jesteś botem</h2></div><button id="closeSpecialistDialog" class="icon-button" type="button" aria-label="Zamknij">×</button></div>
+      <p>Po weryfikacji pokażemy dane kontaktowe specjalisty. Nie udostępniamy ich automatycznym skryptom.</p>
+      <div id="specialistTurnstileSlot" class="turnstile-slot"></div><div id="specialistContactStatus" class="notice hidden" role="status" aria-live="polite"></div><div id="specialistContactDetails" class="contact-details hidden"></div>
+      <p class="privacy-note">Cloudflare Turnstile sprawdza jednorazowy token po stronie serwera.</p>
+    </div>
+  </dialog>
+
+  <footer class="site-footer"><div class="footer-row shell"><span>Kancelio.pl · sieć specjalistów całego procesu</span><a href="/privacy.html">Prywatność i cookies</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+  <script src="/assets/config.js?v=20260818-4" defer></script><script src="/assets/kancelio.js?v=20260818-3" defer></script><script src="/assets/specialist-directory.js?v=20260818-1" defer></script>
+</body>
+</html>

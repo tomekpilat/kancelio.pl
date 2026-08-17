@@ -7,9 +7,10 @@
   const links = [
     ["/kalkulatory.html", "Kalkulatory"],
     ["/sprzedaz-nieruchomosci-checklista.html", "Sprzedaż krok po kroku"],
+    ["/specjalisci.html", "Specjaliści"],
     ["/kancelarie.html", "Kancelarie"],
     ["/moje-sprawy.html", "Moje sprawy"],
-    ["/dla-kancelarii.html", "Dla kancelarii"],
+    ["/dla-specjalistow.html", "Dla specjalistów"],
   ];
   let authClient = null;
   let currentSession = null;
@@ -57,6 +58,7 @@
       <div id="k-account-menu-${index}" class="k-account-popover" hidden>
         <span class="k-account-email" title="${escapeAttribute(email)}">${escapeHtml(email)}</span>
         <a href="/moje-sprawy.html">Panel: moje sprawy</a>
+        <a href="/dla-specjalistow.html">Panel specjalisty</a>
         <a href="/dla-kancelarii.html">Panel kancelarii</a>
         <button type="button" data-k-signout>Wyloguj się</button>
       </div>`;

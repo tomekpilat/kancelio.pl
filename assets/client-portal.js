@@ -319,6 +319,43 @@
     return details;
   }
 
+  function renderCaseSpecialists(caseItem, template) {
+    const recommendations = template.specialists || [];
+    if (!recommendations.length) return document.createDocumentFragment();
+    const section = createElement("section", null, "case-specialists");
+    const heading = createElement("div", null, "case-specialists-head");
+    const headingText = document.createElement("div");
+    headingText.append(createElement("h4", "Specjaliści do tej sprawy"), createElement("p", "Podpowiedzi zmieniają się wraz z etapem procesu. Kontakt i adres są chronione przed botami."));
+    const allLink = createElement("a", "Pokaż wszystkich", "button secondary small");
+    const allParams = new URLSearchParams({ case: caseItem.case_type }); if (caseItem.city) allParams.set("city", caseItem.city); allLink.href = `/specjalisci.html?${allParams}`;
+    heading.append(headingText, allLink); section.append(heading);
+    const stages = categories.filter(([stage]) => recommendations.some((recommendation) => recommendation.stage === stage));
+    const activeStage = stages.find(([stage]) => (caseItem.client_case_items || []).some((item) => item.category === stage && !item.completed))?.[0] || stages[0][0];
+    const tabs = createElement("div", null, "case-specialist-tabs"); tabs.setAttribute("role", "tablist");
+    const panels = createElement("div", null, "case-specialist-panels");
+    stages.forEach(([stage, categoryLabel]) => {
+      const stageRecommendations = recommendations.filter((recommendation) => recommendation.stage === stage);
+      const tab = createElement("button", `${categoryLabel.replace(/^\d\. /, "")} · ${stageRecommendations.length}`, `case-specialist-tab${stage === activeStage ? " active" : ""}`);
+      tab.type = "button"; tab.setAttribute("role", "tab"); tab.setAttribute("aria-selected", String(stage === activeStage));
+      const panel = createElement("div", null, `case-specialist-panel${stage === activeStage ? "" : " hidden"}`); panel.setAttribute("role", "tabpanel");
+      stageRecommendations.forEach((recommendation) => {
+        const card = createElement("article", null, "case-specialist-card");
+        const title = createElement("strong", app.specialistProfessionById[recommendation.profession]?.label || recommendation.profession);
+        const reason = createElement("p", recommendation.reason);
+        const link = createElement("a", "Znajdź specjalistę →", "case-specialist-link");
+        const params = new URLSearchParams({ case: caseItem.case_type, profession: recommendation.profession, stage }); if (caseItem.city) params.set("city", caseItem.city); link.href = `/specjalisci.html?${params}`;
+        card.append(title, reason, link); panel.append(card);
+      });
+      tab.addEventListener("click", () => {
+        tabs.querySelectorAll("[role=tab]").forEach((button) => { button.classList.remove("active"); button.setAttribute("aria-selected", "false"); });
+        panels.querySelectorAll("[role=tabpanel]").forEach((item) => item.classList.add("hidden"));
+        tab.classList.add("active"); tab.setAttribute("aria-selected", "true"); panel.classList.remove("hidden");
+      });
+      tabs.append(tab); panels.append(panel);
+    });
+    section.append(tabs, panels); return section;
+  }
+
   function renderCase(caseItem) {
     const template = templates[caseItem.case_type];
     const items = (caseItem.client_case_items || []).slice().sort((a, b) => a.sort_order - b.sort_order);
@@ -331,7 +368,7 @@
     titleBox.append(createElement("h3", caseItem.title), createElement("div", `${template.label}${caseItem.city ? ` · ${caseItem.city}` : ""}`, "case-meta"));
     const progress = createElement("div", null, "case-progress"); progress.append(createElement("span", `${completedCount}/${items.length} gotowe`));
     const track = createElement("div", null, "progress-track"); const bar = document.createElement("span"); bar.style.width = `${percent}%`; track.append(bar); progress.append(track);
-    head.append(titleBox, progress); card.append(head, renderParticipants(caseItem));
+    head.append(titleBox, progress); card.append(head, renderParticipants(caseItem), renderCaseSpecialists(caseItem, template));
     let openedGroup = false;
     categories.forEach(([category, label]) => {
       const groupItems = items.filter((item) => item.category === category); if (!groupItems.length) return;
@@ -345,8 +382,8 @@
     const tools = createElement("div", null, "case-tools-grid"); tools.append(renderCustomItemForm(caseItem)); if (isOwner) tools.append(renderInvitePanel(caseItem)); card.append(tools);
     const actions = createElement("div", null, "case-actions");
     const calculator = createElement("a", "Otwórz kalkulator", "button secondary"); calculator.href = template.calculator;
-    const directory = createElement("a", `Znajdź ${template.directoryLabel || "kancelarię"}`, "button");
-    const params = new URLSearchParams({ service: template.service }); if (caseItem.city) params.set("city", caseItem.city); directory.href = `/kancelarie.html?${params}`;
+    const directory = createElement("a", "Znajdź specjalistów do sprawy", "button");
+    const params = new URLSearchParams({ case: caseItem.case_type }); if (caseItem.city) params.set("city", caseItem.city); directory.href = `/specjalisci.html?${params}`;
     actions.append(calculator, directory);
     if (isOwner) {
       const remove = createElement("button", "Usuń sprawę", "button secondary danger-button"); remove.type = "button";

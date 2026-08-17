@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dodaj profil specjalisty — Kancelio.pl</title>
+  <meta name="description" content="Dodaj bezpłatny profil specjalisty i docieraj do klientów na właściwym etapie sprzedaży, najmu, spadku i innych procesów.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/directory.css?v=20260818-2"><link rel="stylesheet" href="/assets/specialists.css?v=20260818-1">
+</head>
+<body>
+  <header class="site-header"><nav class="nav shell" aria-label="Główna nawigacja"><a class="brand" href="/">Kancelio<span>.pl</span></a></nav><div class="hero center shell"><div class="eyebrow">Dołącz do sieci Kancelio</div><h1>Docieraj do klienta na właściwym etapie sprawy.</h1><p>Nie budujemy zwykłej listy firm. Twój profil pojawia się przy konkretnym rodzaju procesu i momencie, w którym Twoja pomoc ma znaczenie.</p></div></header>
+  <main class="specialist-editor-main shell">
+    <section class="specialist-benefits" aria-label="Korzyści"><div class="specialist-benefit"><strong>Kontekst sprawy</strong><p>Klient trafia do Ciebie z informacją, jaki proces i etap właśnie realizuje.</p></div><div class="specialist-benefit"><strong>Lepsze dopasowanie</strong><p>Wskaż miasta, sprawy, etapy i konkretne usługi zamiast kupować przypadkowy ruch.</p></div><div class="specialist-benefit"><strong>Kontakt chroniony</strong><p>E-mail, telefon i adres pokazujemy dopiero po weryfikacji antybotowej.</p></div></section>
+
+    <div id="specialistEditorNotice" class="notice hidden" role="status" aria-live="polite"></div>
+    <section id="specialistAuth" class="specialist-auth panel auth-panel">
+      <div><div class="eyebrow">Konto specjalisty</div><h2 id="specialistAuthTitle">Zaloguj się lub załóż konto</h2><p>Po rejestracji jedynym krokiem będzie uzupełnienie profilu. Notariusze korzystają z osobnego <a href="/dla-kancelarii.html">panelu kancelarii</a>.</p></div>
+      <div class="auth-options"><div class="auth-tabs"><button id="specialistLoginMode" class="auth-tab active" type="button">Logowanie</button><button id="specialistSignupMode" class="auth-tab" type="button">Rejestracja</button></div>
+        <form id="specialistAuthForm" class="email-auth-form"><div class="auth-field"><label for="specialistAuthEmail">E-mail</label><input id="specialistAuthEmail" type="email" required maxlength="254" autocomplete="email"></div><div class="auth-field"><label for="specialistAuthPassword">Hasło</label><input id="specialistAuthPassword" type="password" required minlength="8" maxlength="128" autocomplete="current-password"></div><button id="specialistAuthSubmit" class="button auth-submit" type="submit">Zaloguj się</button></form>
+        <div class="auth-divider"><span>lub</span></div><button id="specialistGoogleLogin" class="google-auth-button" type="button"><svg class="google-logo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-4z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4c-7.7 0-14.4 4.3-17.7 10.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.9 28.5l-6.5 5C9.7 39.7 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.7-.4-4z"/></svg><span>Kontynuuj przez Google</span></button><p class="auth-legal">Zakładając konto, akceptujesz <a href="/privacy.html">politykę prywatności</a>.</p>
+      </div>
+    </section>
+
+    <section id="specialistEditor" class="specialist-editor hidden" aria-labelledby="specialistEditorTitle">
+      <div class="dashboard-head"><div><div class="eyebrow">Panel specjalisty</div><h2 id="specialistEditorTitle">Uzupełnij profil</h2><p id="specialistAccountEmail"></p></div><div class="account-actions"><a class="button secondary" href="/specjalisci.html">Zobacz katalog</a><button id="specialistLogout" class="button secondary" type="button">Wyloguj się</button></div></div>
+      <form id="specialistProfileForm" class="panel">
+        <div class="specialist-editor-grid">
+          <div class="field"><label for="profileName">Nazwa firmy lub imię i nazwisko</label><input id="profileName" required minlength="3" maxlength="160"></div>
+          <div class="field"><label for="profileProfession">Specjalizacja</label><select id="profileProfession" required><option value="">Wybierz</option></select></div>
+          <div class="field"><label for="profileCity">Główne miasto</label><input id="profileCity" required minlength="2" maxlength="100" autocomplete="address-level2"></div>
+          <div class="field"><label for="profileWebsite">Strona internetowa</label><input id="profileWebsite" type="url" maxlength="300" placeholder="https://..."></div>
+          <div class="field full"><label for="profileBio">Krótki opis doświadczenia</label><textarea id="profileBio" maxlength="900" placeholder="W czym pomagasz i dla kogo?"></textarea></div>
+          <div class="field full"><label for="profileServices">Konkretne usługi</label><input id="profileServices" required maxlength="500" placeholder="np. odbiór techniczny mieszkania, analiza umowy, wycena"><small>Oddziel usługi przecinkami; maksymalnie 12 pozycji.</small></div>
+          <fieldset class="field full"><legend>Rodzaje spraw</legend><div id="profileCaseTypes" class="check-grid"></div></fieldset>
+          <fieldset class="field full"><legend>Etapy, na których pomagasz</legend><div id="profileStages" class="check-grid"></div></fieldset>
+          <div class="field"><label for="profileEmail">E-mail kontaktowy</label><input id="profileEmail" type="email" required maxlength="254"></div>
+          <div class="field"><label for="profilePhone">Telefon</label><input id="profilePhone" type="tel" maxlength="40"></div>
+          <div class="field"><label for="profileAddress">Adres</label><input id="profileAddress" maxlength="220" autocomplete="street-address"></div>
+          <div class="field"><label for="profilePostalCode">Kod pocztowy</label><input id="profilePostalCode" pattern="[0-9]{2}-[0-9]{3}" maxlength="6" placeholder="00-001"></div>
+          <label class="check-option field full"><input id="profileRemote" type="checkbox"><span>Oferuję również obsługę zdalną</span></label>
+          <label class="check-option field full"><input id="profilePublished" type="checkbox" checked><span>Profil ma być widoczny w katalogu</span></label>
+        </div>
+        <div class="form-actions"><button id="saveSpecialistProfile" class="button" type="submit">Zapisz profil</button><span id="specialistSaveHint">Dane kontaktowe będą chronione przez Turnstile.</span></div>
+        <div id="specialistDanger" class="specialist-danger hidden"><p>Usunięcie profilu wycofa go z wyszukiwarki i usunie dane kontaktowe.</p><button id="deleteSpecialistProfile" class="button secondary danger" type="button">Usuń profil</button></div>
+      </form>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="footer-row shell"><span>Kancelio.pl · partnerzy całego procesu</span><a href="/privacy.html">Prywatność i cookies</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/assets/config.js?v=20260818-4" defer></script><script src="/assets/kancelio.js?v=20260818-3" defer></script><script src="/assets/specialist-editor.js?v=20260818-1" defer></script>
+</body>
+</html>

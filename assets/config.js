@@ -6,6 +6,15 @@ window.KANCELIO_CONFIG = Object.freeze({
 });
 
 (function loadPrivacyControls() {
+  let favicon = document.querySelector('link[rel~="icon"]');
+  if (!favicon) {
+    favicon = document.createElement("link");
+    favicon.rel = "icon";
+    document.head.append(favicon);
+  }
+  favicon.type = "image/svg+xml";
+  favicon.href = "/assets/favicon.svg?v=20260818-1";
+
   const siteScript = document.createElement("script");
   siteScript.src = "/assets/site-enhancements.js?v=20260818-1";
   siteScript.defer = true;

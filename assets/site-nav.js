@@ -18,7 +18,8 @@
   const style = document.createElement("style");
   style.textContent = `
     .k-site-nav{position:relative;z-index:1200;width:min(1180px,calc(100% - 36px));min-height:76px;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:22px;color:#f5f5f7}
-    .k-site-nav .brand,.k-site-nav .logo{flex:0 0 auto;color:#fff;text-decoration:none}
+    .k-site-nav .brand,.k-site-nav .logo{flex:0 0 auto;color:#fff;font:700 25px/1 "Playfair Display",Georgia,serif;letter-spacing:.04em;white-space:nowrap;text-decoration:none}
+    .k-site-nav .brand span,.k-site-nav .logo span{color:#c5a880}
     .k-site-menu{display:flex;align-items:center;justify-content:flex-end;gap:17px;min-width:0}
     .k-site-links{display:flex;align-items:center;gap:17px;white-space:nowrap}
     .k-site-links>a{position:relative;color:#f5f5f7;font-size:12px;font-weight:650;text-decoration:none}
@@ -74,7 +75,7 @@
 
   function renderNav(nav, index) {
     nav.classList.add("k-site-nav");
-    nav.innerHTML = `<a class="brand" href="/">Kancelio<span>.pl</span></a>
+    nav.innerHTML = `<a class="brand" href="/" aria-label="Kancelio.pl — strona główna">Kancelio<span>.pl</span></a>
       <button class="k-nav-toggle" type="button" aria-expanded="false" aria-controls="k-site-menu-${index}"><span class="k-nav-toggle-lines" aria-hidden="true"></span>Menu</button>
       <div id="k-site-menu-${index}" class="k-site-menu">
         <div class="k-site-links">${links.map(([href, label]) => `<a href="${href}"${isActive(href) ? ' class="is-active" aria-current="page"' : ""}>${label}</a>`).join("")}</div>

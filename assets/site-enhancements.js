@@ -12,7 +12,7 @@
 
   const nav = document.querySelector("header nav");
   const existingBack = nav?.querySelector(".back");
-  if (nav && existingBack) {
+  if (nav && existingBack && !nav.querySelector('a[href="/kalkulatory.html"]')) {
     const toolsLink = document.createElement("a");
     toolsLink.className = "back";
     toolsLink.href = "/kalkulatory.html";
@@ -45,7 +45,7 @@
 
   const leadSearch = document.querySelector(".lead-search");
   const type = document.getElementById("type");
-  if (leadSearch && type) {
+  if (leadSearch && type && !document.getElementById("caseLink")) {
     const save = document.createElement("a");
     save.className = "k-save-case";
     save.textContent = "Zapisz sprawę i checklistę";

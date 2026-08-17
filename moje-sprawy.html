@@ -4,22 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>Moje sprawy — prywatny panel Kancelio.pl</title>
-  <meta name="description" content="Zapisuj sprawy notarialne i kompletuj dokumenty na prywatnych checklistach.">
+  <title>Moje sprawy — wspólna checklista procesu | Kancelio.pl</title>
+  <meta name="description" content="Prowadź całą sprawę krok po kroku, dodawaj dokumenty i zadania oraz przypisuj je zaproszonym osobom.">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/tools.css?v=20260817-5"><link rel="stylesheet" href="/assets/client-portal.css?v=20260817-5">
+  <link rel="stylesheet" href="/assets/tools.css?v=20260817-5"><link rel="stylesheet" href="/assets/client-portal.css?v=20260818-1">
 </head>
 <body>
   <header class="site-header">
     <nav class="nav shell"><a class="brand" href="/">Kancelio<span>.pl</span></a><div class="nav-links"><a href="/kalkulatory.html">Kalkulatory</a><a href="/kancelarie.html">Znajdź kancelarię</a></div></nav>
-    <div class="hero shell"><div class="eyebrow">Prywatny panel klienta</div><h1>Przygotuj sprawę krok po kroku</h1><p>Zapisz rodzaj sprawy, skompletuj dokumenty według checklisty i przejdź do kancelarii, gdy będziesz gotowy.</p></div>
+    <div class="hero shell"><div class="eyebrow">Prywatne centrum sprawy</div><h1>Ogarnij cały proces w jednym miejscu</h1><p>Dokumenty, zadania, terminy i odpowiedzialność — od pierwszej decyzji, przez podpisanie umowy, aż po media i formalności po transakcji.</p></div>
   </header>
 
   <main class="client-main shell">
     <div id="portalNotice" class="portal-notice hidden" role="status" aria-live="polite"></div>
     <section id="authSection" class="client-auth" aria-label="Logowanie do panelu klienta">
-      <div><div class="eyebrow">Konto klienta</div><h2 id="authTitle">Zaloguj się do swoich spraw</h2><p>Twoje checklisty są prywatne i dostępne tylko po zalogowaniu. Nie zapisujemy w nich kwot z kalkulatorów ani treści dokumentów.</p></div>
+      <div><div class="eyebrow">Konto klienta</div><h2 id="authTitle">Zaloguj się do swoich spraw</h2><p>Twoje checklisty i pliki są prywatne. Po zalogowaniu możesz dodać własne dokumenty, przypisać zadania i zaprosić drugą stronę konkretnym adresem e-mail.</p></div>
       <div>
         <div class="auth-tabs" role="group" aria-label="Wybierz sposób dostępu"><button id="loginMode" class="auth-tab active" type="button" aria-pressed="true">Logowanie</button><button id="signupMode" class="auth-tab" type="button" aria-pressed="false">Rejestracja</button></div>
         <form id="authForm" class="auth-form">
@@ -37,18 +37,18 @@
     </section>
 
     <section id="caseDashboard" class="case-dashboard hidden">
-      <div class="dashboard-head"><div><div class="eyebrow">Moje sprawy</div><h2>Dokumenty pod kontrolą</h2><p id="accountEmail"></p></div><button id="logout" class="button secondary" type="button">Wyloguj się</button></div>
+      <div class="dashboard-head"><div><div class="eyebrow">Moje sprawy</div><h2>Cały proces pod kontrolą</h2><p id="accountEmail"></p></div><button id="logout" class="button secondary" type="button">Wyloguj się</button></div>
       <form id="caseForm" class="case-form">
         <div><label for="caseTitle">Własna nazwa sprawy</label><input id="caseTitle" maxlength="120" placeholder="np. Mieszkanie na Mokotowie"></div>
         <div><label for="caseType">Rodzaj sprawy</label><select id="caseType" required></select></div>
         <div><label for="caseCity">Miasto</label><input id="caseCity" maxlength="100" autocomplete="address-level2" placeholder="np. Warszawa"></div>
         <button id="saveCase" class="button" type="submit">Dodaj sprawę</button>
       </form>
-      <p class="legal-note">Dla prywatności użyj krótkiej, neutralnej nazwy. Nie wpisuj tu nazwisk, numerów PESEL, danych o zdrowiu, treści dokumentów ani opisu konfliktu.</p>
+      <p class="legal-note"><strong>Bezpieczeństwo:</strong> użyj neutralnej nazwy sprawy. Pliki mogą zawierać dane osobowe, dlatego dodawaj tylko materiały potrzebne do procesu, udostępniaj sprawę wyłącznie właściwym osobom i usuwaj dokumenty, gdy przestaną być potrzebne. Limit jednego pliku: 10 MB.</p>
       <div id="caseList" class="case-list" aria-live="polite"></div>
     </section>
   </main>
-  <footer class="site-footer"><div class="footer-row shell"><span>Kancelio.pl · prywatny panel przygotowania sprawy</span><a href="/privacy.html">Prywatność i cookies</a></div></footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/assets/config.js" defer></script><script src="/assets/kancelio.js?v=20260817-5" defer></script><script src="/assets/client-portal.js?v=20260817-5" defer></script>
+  <footer class="site-footer"><div class="footer-row shell"><span>Kancelio.pl · prywatne centrum prowadzenia sprawy</span><a href="/privacy.html">Prywatność i cookies</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/assets/config.js" defer></script><script src="/assets/kancelio.js?v=20260818-1" defer></script><script src="/assets/case-templates.js?v=20260818-1" defer></script><script src="/assets/client-portal.js?v=20260818-1" defer></script>
 </body>
 </html>

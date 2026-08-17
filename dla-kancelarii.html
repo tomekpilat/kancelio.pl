@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/assets/directory.css">
 </head>
 <body>
-  <header class="site-header">
+  <header id="publicHeader" class="site-header">
     <nav class="nav shell" aria-label="Główna nawigacja">
       <a class="brand" href="/">Kancelio<span>.pl</span></a>
       <div class="nav-links">
@@ -27,8 +27,23 @@
     </div>
   </header>
 
+  <header id="dashboardHeader" class="site-header dashboard-header hidden">
+    <nav class="nav shell" aria-label="Nawigacja panelu kancelarii">
+      <a class="brand" href="/">Kancelio<span>.pl</span></a>
+      <div class="account-actions">
+        <span id="accountEmail" class="account-email dashboard-email"></span>
+        <button id="logout" class="button secondary small dashboard-logout" type="button">Wyloguj się</button>
+      </div>
+    </nav>
+    <div class="dashboard-hero shell">
+      <div class="eyebrow">Panel kancelarii</div>
+      <h1>Uzupełnij profil kancelarii</h1>
+      <p>To jedyny krok potrzebny, aby wizytówka pojawiła się w katalogu i przy wynikach kalkulatora.</p>
+    </div>
+  </header>
+
   <main>
-    <section class="benefits shell" aria-label="Korzyści z wizytówki">
+    <section id="publicBenefits" class="benefits shell" aria-label="Korzyści z wizytówki">
       <article class="benefit">
         <div class="benefit-number">01</div>
         <h2>Klienci z intencją</h2>
@@ -47,7 +62,7 @@
     </section>
 
     <section class="section shell" id="profil">
-      <div class="section-heading">
+      <div id="publicProfileIntro" class="section-heading">
         <div class="eyebrow">Bezpłatna wizytówka</div>
         <h2>Dodaj kancelarię do katalogu</h2>
         <p>Zaloguj się kontem Google, uzupełnij dane i opublikuj profil. Możesz wrócić i zaktualizować go w dowolnym momencie.</p>
@@ -57,7 +72,7 @@
         Moduł katalogu wymaga konfiguracji Supabase. Instrukcja znajduje się w <code>docs/notary-directory-setup.md</code>.
       </div>
 
-      <div class="panel auth-panel">
+      <div id="authPanel" class="panel auth-panel">
         <div>
           <h2 id="authTitle">Zaloguj się, aby rozpocząć</h2>
           <p id="authDescription">Google potwierdzi konto, a Kancelio utworzy bezpieczny profil właściciela wizytówki.</p>
@@ -65,15 +80,11 @@
         <div id="signedOutActions" class="account-actions">
           <button id="googleLogin" class="button gold" type="button"><span class="google-mark" aria-hidden="true"></span>Kontynuuj z Google</button>
         </div>
-        <div id="signedInActions" class="account-actions hidden">
-          <span id="accountEmail" class="account-email"></span>
-          <button id="logout" class="button secondary small" type="button">Wyloguj się</button>
-        </div>
       </div>
 
       <form id="officeForm" class="panel editor hidden" novalidate>
         <div class="section-heading">
-          <h2>Twoja wizytówka</h2>
+          <h2 id="editorTitle">Uzupełnij profil kancelarii</h2>
           <p>Informacje oznaczone jako chronione są przechowywane osobno i ujawniane klientowi dopiero po CAPTCHA.</p>
         </div>
         <div class="editor-grid">
@@ -127,7 +138,6 @@
         <div id="formStatus" class="notice hidden" role="status" aria-live="polite"></div>
         <div class="form-actions">
           <button id="saveOffice" class="button gold" type="submit">Opublikuj wizytówkę</button>
-          <a class="button secondary" href="/kancelarie.html">Zobacz katalog</a>
           <span class="privacy-note">Publikując, potwierdzasz prawo do podania danych kancelarii i akceptujesz <a href="/privacy.html">politykę prywatności</a>.</span>
         </div>
       </form>

@@ -16,6 +16,8 @@ Formspree). This keeps the teaser cheap and trivial to deploy.
 ```
 kancelio.pl/
 ├── index.html              # the LIVE teaser (currently the "classic" variant)
+├── kalkulator.html         # public notarial-cost calculator prototype
+├── docs/                   # product and launch notes
 ├── Dockerfile              # nginx:alpine serving the static files
 ├── nginx.conf              # security headers, gzip, cache policy
 ├── .dockerignore
@@ -73,6 +75,11 @@ docker run --rm -p 8080:80 kancelio-teaser
 ```
 
 Or, without Docker, just open `index.html` in a browser.
+
+The calculator is available at `http://localhost:8080/kalkulator.html`. Its
+current rules are kept in a versioned JavaScript object for the static
+validation phase. See `docs/calculator-launch-plan.md` before moving the rules
+into the future public API.
 
 ## Deploy on Coolify (Hetzner)
 

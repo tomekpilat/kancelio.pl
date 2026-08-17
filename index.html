@@ -97,6 +97,9 @@
         padding: 7px 15px;
         border-radius: var(--radius);
       }
+      .top-actions { display: flex; align-items: center; gap: 12px; }
+      .calculator-link { color: var(--ivory); font-size: 13px; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--gold); padding: 6px 0; }
+      .calculator-link:hover, .calculator-link:focus-visible { color: var(--gold-light); }
 
       main {
         flex: 1;
@@ -481,7 +484,10 @@
 
     <div class="topbar rise d1">
       <div class="logo">Kancelio<span class="accent">.pl</span></div>
-      <div class="soon-pill">Wkrótce</div>
+      <div class="top-actions">
+        <a class="calculator-link" href="/kalkulator.html">Kalkulator opłat</a>
+        <div class="soon-pill">Wkrótce</div>
+      </div>
     </div>
 
     <main>

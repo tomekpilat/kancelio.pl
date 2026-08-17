@@ -8,3 +8,6 @@ Thumbs.db
 # Local files / secrets (the teaser has none, but good hygiene)
 .env
 *.local
+
+# Supabase CLI local state
+supabase/.temp/

@@ -4,9 +4,14 @@
   const app = window.Kancelio;
   const client = app.getClient();
   const form = document.getElementById("officeForm");
+  const profileSection = document.getElementById("profil");
+  const publicHeader = document.getElementById("publicHeader");
+  const dashboardHeader = document.getElementById("dashboardHeader");
+  const publicBenefits = document.getElementById("publicBenefits");
+  const publicProfileIntro = document.getElementById("publicProfileIntro");
+  const authPanel = document.getElementById("authPanel");
   const configNotice = document.getElementById("configNotice");
   const signedOutActions = document.getElementById("signedOutActions");
-  const signedInActions = document.getElementById("signedInActions");
   const accountEmail = document.getElementById("accountEmail");
   const authTitle = document.getElementById("authTitle");
   const authDescription = document.getElementById("authDescription");
@@ -15,6 +20,7 @@
   const cityInput = document.getElementById("officeCity");
   const emailInput = document.getElementById("officeEmail");
   const coordinateLabel = document.getElementById("mapCoordinates");
+  const editorTitle = document.getElementById("editorTitle");
 
   const cityCenters = {
     warszawa: [52.2297, 21.0122], krakow: [50.0647, 19.945], lodz: [51.7592, 19.456],
@@ -31,6 +37,7 @@
   let map = null;
   let marker = null;
   let coordinates = null;
+  let loadedUserId = null;
 
   function normalize(value) {
     return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ł/g, "l").toLowerCase();
@@ -128,24 +135,37 @@
     }
     populateForm(office, contact);
     saveButton.textContent = officeId ? "Zapisz zmiany" : "Opublikuj wizytówkę";
+    editorTitle.textContent = officeId ? "Edytuj profil kancelarii" : "Uzupełnij profil kancelarii";
   }
 
   function setSession(nextSession) {
     session = nextSession;
     const signedIn = Boolean(session?.user);
+    publicHeader.classList.toggle("hidden", signedIn);
+    dashboardHeader.classList.toggle("hidden", !signedIn);
+    publicBenefits.classList.toggle("hidden", signedIn);
+    publicProfileIntro.classList.toggle("hidden", signedIn);
+    authPanel.classList.toggle("hidden", signedIn);
+    profileSection.classList.toggle("dashboard-section", signedIn);
     signedOutActions.classList.toggle("hidden", signedIn);
-    signedInActions.classList.toggle("hidden", !signedIn);
     form.classList.toggle("hidden", !signedIn);
     accountEmail.textContent = session?.user?.email ?? "";
-    authTitle.textContent = signedIn ? "Konto kancelarii jest aktywne" : "Zaloguj się, aby rozpocząć";
-    authDescription.textContent = signedIn
-      ? "Uzupełnij lub zaktualizuj dane widoczne w katalogu."
-      : "Google potwierdzi konto, a Kancelio utworzy bezpieczny profil właściciela wizytówki.";
-    if (signedIn) {
+    authTitle.textContent = "Zaloguj się, aby rozpocząć";
+    authDescription.textContent = "Google potwierdzi konto, a Kancelio utworzy bezpieczny profil właściciela wizytówki.";
+    if (signedIn && loadedUserId !== session.user.id) {
+      loadedUserId = session.user.id;
       initMap();
       setTimeout(() => map?.invalidateSize(), 0);
       loadOffice();
+    } else if (!signedIn) {
+      loadedUserId = null;
     }
+  }
+
+  function oauthError() {
+    const query = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    return query.get("error_description") || query.get("error") || hash.get("error_description") || hash.get("error");
   }
 
   renderServices();
@@ -157,7 +177,7 @@
   }
 
   document.getElementById("googleLogin").addEventListener("click", async () => {
-    const redirectTo = `${window.location.origin}/dla-kancelarii.html#profil`;
+    const redirectTo = `${window.location.origin}/dla-kancelarii.html`;
     const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo } });
     if (error) {
       configNotice.textContent = "Nie udało się rozpocząć logowania przez Google.";
@@ -241,6 +261,15 @@
     }
   });
 
-  client.auth.getSession().then(({ data }) => setSession(data.session));
+  client.auth.getSession().then(({ data, error }) => {
+    setSession(data.session);
+    const callbackError = oauthError();
+    if (error || callbackError) {
+      configNotice.textContent = callbackError
+        ? `Logowanie nie zostało zakończone: ${callbackError}`
+        : "Nie udało się odczytać sesji. Zaloguj się ponownie przez Google.";
+      configNotice.classList.remove("hidden");
+    }
+  });
   client.auth.onAuthStateChange((_event, nextSession) => setSession(nextSession));
 })();

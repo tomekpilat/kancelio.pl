@@ -22,7 +22,7 @@ button, input, select, textarea { font: inherit; }
 .shell { width: min(1120px, calc(100% - 36px)); margin-inline: auto; }
 .site-header { color: #f5f5f7; background: radial-gradient(800px 360px at 50% 0, rgba(197,168,128,.14), transparent), var(--navy); }
 .nav { min-height: 76px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
-.brand { font: 700 25px "Playfair Display", serif; letter-spacing: .04em; text-decoration: none; }
+.brand { font: 700 25px/1 "Playfair Display", Georgia, serif; letter-spacing: .04em; white-space: nowrap; text-decoration: none; }
 .brand span, .eyebrow { color: var(--gold); }
 .nav-links { display: flex; gap: 18px; align-items: center; font-size: 13px; font-weight: 600; }
 .nav-links a { text-decoration: none; }

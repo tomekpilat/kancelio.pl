@@ -1,9 +1,9 @@
-# Kancelio.pl — kalkulator kosztów i teaser
+# Kancelio.pl — kalkulator kosztów i katalog kancelarii
 
-A static public notarial-cost calculator for **Kancelio.pl**, with a separate
-"coming soon" page and email waitlist for notary offices. No backend or
-database is required: nginx serves the pages and an external provider collects
-emails.
+A public notarial-cost calculator for **Kancelio.pl** plus a searchable notary
+directory. nginx serves the frontend; Supabase provides Google authentication,
+PostgreSQL persistence and RLS, while Cloudflare Turnstile protects contact
+details before they are revealed.
 
 > Note on language: repository files, config, and comments are in English.
 > The **visible page copy is in Polish on purpose** — the audience is Polish
@@ -17,7 +17,10 @@ emails.
 kancelio.pl/
 ├── index.html              # default public notarial-cost calculator
 ├── kalkulator.html         # explicit URL alias for the calculator
-├── dla-kancelarii.html     # notary-office teaser and waitlist
+├── dla-kancelarii.html     # Google sign-in and office profile editor
+├── kancelarie.html         # public city/service search and map
+├── assets/                 # shared directory styles and browser code
+├── supabase/               # schema, RLS and protected contact function
 ├── docs/                   # product and launch notes
 ├── Dockerfile              # nginx:alpine serving the static files
 ├── nginx.conf              # security headers, gzip, cache policy
@@ -42,7 +45,14 @@ cp variants/prestige.html dla-kancelarii.html
 git add dla-kancelarii.html && git commit -m "Switch teaser to prestige variant"
 ```
 
-## Connect the email form (required to actually collect emails)
+## Configure the directory backend
+
+The calculator works without a backend. Registration, persistent wizytówki,
+search and protected contact reveal require Supabase and Turnstile. Follow
+[docs/notary-directory-setup.md](docs/notary-directory-setup.md) for migration,
+Google OAuth, CAPTCHA and Coolify environment setup.
+
+## Legacy email form notes
 
 Every variant ships with a working form wired for **Formspree** and a preview
 mode. Out of the box the form is in preview mode: it shows the success screen

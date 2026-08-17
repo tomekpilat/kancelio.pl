@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Znajdź kancelarię notarialną — Kancelio.pl</title>
+  <meta name="description" content="Wyszukaj kancelarię notarialną według miasta i rodzaju czynności. Zobacz wyniki na mapie i bezpiecznie odsłoń dane kontaktowe.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynj6vcLZwOq7UXkJoZbNkc7NwA0c=" crossorigin="">
+  <link rel="stylesheet" href="/assets/directory.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Główna nawigacja">
+      <a class="brand" href="/">Kancelio<span>.pl</span></a>
+      <div class="nav-links">
+        <a href="/">Kalkulator opłat</a>
+        <a href="/dla-kancelarii.html">Dla kancelarii</a>
+      </div>
+    </nav>
+    <div class="hero center shell">
+      <div class="eyebrow">Katalog kancelarii</div>
+      <h1>Znajdź notariusza dla swojej sprawy.</h1>
+      <p>Wybierz miasto i czynność. Wyniki uwzględniają usługi zadeklarowane przez kancelarie, a dane kontaktowe są chronione przed automatycznym scrapingiem.</p>
+    </div>
+  </header>
+
+  <main class="directory-main shell">
+    <section class="search-panel" aria-label="Wyszukiwanie kancelarii">
+      <form id="searchForm" class="search-form">
+        <div>
+          <label for="citySearch">Miasto</label>
+          <input id="citySearch" name="city" autocomplete="address-level2" placeholder="np. Warszawa">
+        </div>
+        <div>
+          <label for="serviceSearch">Rodzaj czynności</label>
+          <select id="serviceSearch" name="service"><option value="">Wszystkie usługi</option></select>
+        </div>
+        <button class="button gold" type="submit">Szukaj kancelarii</button>
+      </form>
+    </section>
+
+    <div id="configNotice" class="notice error hidden" role="alert">
+      Katalog nie jest jeszcze połączony z bazą danych. Administrator musi skonfigurować Supabase.
+    </div>
+    <p id="searchSummary" class="search-summary" role="status" aria-live="polite">Wpisz miasto lub wybierz usługę, aby rozpocząć.</p>
+
+    <div class="directory-layout">
+      <section id="results" class="results" aria-label="Wyniki wyszukiwania"></section>
+      <div id="directoryMap" class="directory-map" role="application" aria-label="Mapa wyników wyszukiwania"></div>
+    </div>
+  </main>
+
+  <dialog id="contactDialog" aria-labelledby="contactTitle">
+    <div class="dialog-inner">
+      <div class="dialog-head">
+        <div>
+          <div class="eyebrow">Chronione dane kontaktowe</div>
+          <h2 id="contactTitle">Potwierdź, że nie jesteś botem</h2>
+        </div>
+        <button id="closeDialog" class="icon-button" type="button" aria-label="Zamknij">×</button>
+      </div>
+      <p id="contactIntro">Po krótkiej weryfikacji pokażemy adres, e-mail i telefon kancelarii.</p>
+      <div id="turnstileSlot" class="turnstile-slot"></div>
+      <div id="contactStatus" class="notice hidden" role="status" aria-live="polite"></div>
+      <div id="contactDetails" class="contact-details hidden"></div>
+      <p class="privacy-note">Weryfikacja jest wykonywana przez Cloudflare Turnstile. Token jest jednorazowy i sprawdzany po stronie serwera.</p>
+    </div>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="footer-row shell"><span>Nie widzisz swojej kancelarii? <a href="/dla-kancelarii.html#profil">Dodaj bezpłatną wizytówkę</a>.</span><span>© 2026 Kancelio.pl</span></div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+  <script src="/assets/config.js" defer></script>
+  <script src="/assets/kancelio.js" defer></script>
+  <script src="/assets/directory.js" defer></script>
+</body>
+</html>

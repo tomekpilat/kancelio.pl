@@ -1,689 +1,147 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kancelio.pl — Wkrótce · Klasyczna Elegancja</title>
-    <meta
-      name="description"
-      content="Kancelio.pl — cyfrowa kancelaria notarialna w duchu klasycznej elegancji. Dołącz do listy oczekujących na wczesny dostęp."
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='4' fill='%230B1325'/%3E%3Crect x='6' y='6' width='88' height='88' rx='2' fill='none' stroke='%23C5A880' stroke-width='2'/%3E%3Ctext x='50' y='72' font-family='Georgia,serif' font-size='60' font-weight='700' fill='%23C5A880' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E"
-    />
-    <style>
-      :root {
-        --navy: #0b1325;
-        --navy-2: #121b2a;
-        --navy-3: #1c2533;
-        --ivory: #f5f5f7;
-        --paper: #faf9f6;
-        --gold: #c5a880;
-        --gold-light: #e5d3b3;
-        --gold-deep: #a98a5c;
-        --success: #1e4620;
-        --danger: #7f1d1d;
-        --radius: 4px;
-      }
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html {
-        scroll-behavior: smooth;
-      }
-      body {
-        font-family: "Inter", system-ui, sans-serif;
-        color: var(--ivory);
-        background: var(--navy);
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
-      .bg {
-        position: fixed;
-        inset: 0;
-        z-index: -1;
-        background: radial-gradient(
-            900px 520px at 50% -6%,
-            rgba(197, 168, 128, 0.14),
-            transparent 62%
-          ),
-          radial-gradient(
-            700px 420px at 50% 120%,
-            rgba(197, 168, 128, 0.07),
-            transparent 60%
-          ),
-          linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
-      }
-
-      .topbar {
-        max-width: 1080px;
-        margin: 0 auto;
-        width: 100%;
-        padding: 26px 28px 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .logo {
-        font-family: "Playfair Display", serif;
-        font-weight: 700;
-        font-size: 24px;
-        letter-spacing: 0.04em;
-        color: var(--ivory);
-      }
-      .logo .accent {
-        color: var(--gold);
-        font-weight: 400;
-      }
-      .soon-pill {
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        color: var(--gold-light);
-        border: 1px solid var(--gold);
-        padding: 7px 15px;
-        border-radius: var(--radius);
-      }
-      .top-actions { display: flex; align-items: center; gap: 12px; }
-      .calculator-link { color: var(--ivory); font-size: 13px; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--gold); padding: 6px 0; }
-      .calculator-link:hover, .calculator-link:focus-visible { color: var(--gold-light); }
-
-      main {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 52px 28px 24px;
-      }
-
-      /* signature element: gilt double-rule frame — like an official certificate */
-      .frame {
-        max-width: 680px;
-        width: 100%;
-        position: relative;
-        border: 1px solid var(--gold);
-        padding: clamp(34px, 6vw, 64px) clamp(26px, 5vw, 58px);
-        background: linear-gradient(
-          180deg,
-          rgba(28, 37, 51, 0.5),
-          rgba(11, 19, 37, 0.2)
-        );
-      }
-      .frame::before {
-        content: "";
-        position: absolute;
-        inset: 7px;
-        border: 1px solid rgba(197, 168, 128, 0.4);
-        pointer-events: none;
-      }
-      .frame > * {
-        position: relative;
-      }
-      .hero {
-        text-align: center;
-      }
-
-      /* monogram stamp */
-      .stamp {
-        width: 74px;
-        height: 74px;
-        margin: 0 auto 30px;
-        border: 1px solid var(--gold);
-        border-radius: var(--radius);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-      }
-      .stamp::after {
-        content: "";
-        position: absolute;
-        inset: 5px;
-        border: 1px solid rgba(197, 168, 128, 0.45);
-        border-radius: 2px;
-      }
-      .stamp span {
-        font-family: "Playfair Display", serif;
-        font-weight: 700;
-        font-size: 40px;
-        color: var(--gold-light);
-        line-height: 1;
-      }
-
-      .eyebrow {
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: 0.24em;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 20px;
-      }
-      h1 {
-        font-family: "Playfair Display", serif;
-        font-weight: 700;
-        letter-spacing: 0.03em;
-        font-size: clamp(32px, 5.6vw, 50px);
-        line-height: 1.18;
-        color: var(--ivory);
-      }
-      h1 .accent {
-        color: var(--gold);
-        font-weight: 400;
-        font-style: italic;
-      }
-      .rule {
-        width: 64px;
-        height: 1px;
-        background: var(--gold);
-        margin: 26px auto;
-      }
-      .lede {
-        font-size: clamp(15px, 2.1vw, 17.5px);
-        color: #c7ccd6;
-        max-width: 50ch;
-        margin: 0 auto;
-        line-height: 1.65;
-      }
-
-      /* form */
-      .form-card {
-        margin: 34px auto 0;
-        max-width: 500px;
-      }
-      form {
-        display: flex;
-        gap: 10px;
-      }
-      .email-wrap {
-        flex: 1;
-        position: relative;
-      }
-      input[type="email"] {
-        width: 100%;
-        font-family: "Inter";
-        font-size: 15px;
-        color: var(--ivory);
-        padding: 15px 16px;
-        border: 1px solid var(--gold);
-        border-radius: var(--radius);
-        background: rgba(11, 19, 37, 0.6);
-        transition: border-color 0.15s, box-shadow 0.15s;
-      }
-      input[type="email"]::placeholder {
-        color: #8a93a6;
-      }
-      input[type="email"]:focus {
-        outline: none;
-        border-color: var(--gold-light);
-        box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.3);
-      }
-      .honey {
-        position: absolute;
-        left: -9999px;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-      }
-      button.cta {
-        font-family: "Inter";
-        font-size: 15px;
-        font-weight: 700;
-        color: var(--navy);
-        white-space: nowrap;
-        letter-spacing: 0.02em;
-        background: var(--gold);
-        border: 1px solid var(--gold);
-        border-radius: var(--radius);
-        padding: 15px 26px;
-        cursor: pointer;
-        transition: filter 0.15s, transform 0.05s;
-      }
-      button.cta:hover {
-        filter: brightness(1.06);
-      }
-      button.cta:active {
-        transform: translateY(1px);
-      }
-      button.cta:focus-visible {
-        outline: 2px solid var(--gold-light);
-        outline-offset: 2px;
-      }
-      button.cta:disabled {
-        opacity: 0.6;
-        cursor: default;
-      }
-
-      .form-note {
-        font-size: 12px;
-        color: #9aa2b2;
-        margin-top: 15px;
-        line-height: 1.5;
-        letter-spacing: 0.01em;
-      }
-      .form-note a {
-        color: var(--gold-light);
-        text-decoration: none;
-        border-bottom: 1px solid rgba(229, 211, 179, 0.4);
-      }
-      .form-note a:hover {
-        color: var(--gold);
-      }
-      .status {
-        margin-top: 14px;
-        font-size: 13.5px;
-        min-height: 1px;
-      }
-      .status.err {
-        color: #e8a0a0;
-        font-weight: 500;
-      }
-
-      .success {
-        max-width: 500px;
-        margin: 34px auto 0;
-        border: 1px solid var(--gold);
-        background: rgba(11, 19, 37, 0.6);
-        padding: 30px 28px;
-        display: none;
-        position: relative;
-      }
-      .success::after {
-        content: "";
-        position: absolute;
-        inset: 5px;
-        border: 1px solid rgba(197, 168, 128, 0.4);
-        pointer-events: none;
-      }
-      .success.show {
-        display: block;
-        animation: fade 0.45s ease;
-      }
-      @keyframes fade {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-      .success .seal {
-        width: 48px;
-        height: 48px;
-        border: 1px solid var(--gold);
-        border-radius: var(--radius);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 16px;
-        color: var(--gold-light);
-        font-size: 22px;
-      }
-      .success h3 {
-        font-family: "Playfair Display", serif;
-        font-size: 22px;
-        font-weight: 700;
-        margin-bottom: 8px;
-        color: var(--ivory);
-        letter-spacing: 0.02em;
-      }
-      .success p {
-        color: #c7ccd6;
-        font-size: 14.5px;
-      }
-
-      /* values */
-      .values {
-        max-width: 820px;
-        margin: 52px auto 0;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0;
-        border: 1px solid rgba(197, 168, 128, 0.35);
-        text-align: left;
-      }
-      .value {
-        padding: 24px 22px;
-        border-right: 1px solid rgba(197, 168, 128, 0.35);
-      }
-      .value:last-child {
-        border-right: none;
-      }
-      .value .ico {
-        width: 36px;
-        height: 36px;
-        border: 1px solid var(--gold);
-        border-radius: var(--radius);
-        color: var(--gold-light);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 14px;
-      }
-      .value h4 {
-        font-family: "Playfair Display", serif;
-        font-size: 16px;
-        font-weight: 700;
-        margin-bottom: 7px;
-        color: var(--ivory);
-        letter-spacing: 0.02em;
-      }
-      .value p {
-        font-size: 13px;
-        color: #9aa2b2;
-        line-height: 1.5;
-      }
-
-      footer {
-        max-width: 1080px;
-        margin: 56px auto 0;
-        width: 100%;
-        padding: 30px 28px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        flex-wrap: wrap;
-        border-top: 1px solid rgba(197, 168, 128, 0.3);
-      }
-      .foot-logo {
-        font-family: "Playfair Display", serif;
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        color: #c7ccd6;
-      }
-      .foot-logo .accent {
-        color: var(--gold);
-      }
-      .foot-trust {
-        font-size: 12px;
-        color: #9aa2b2;
-        letter-spacing: 0.02em;
-      }
-      .foot-meta {
-        font-size: 12px;
-        color: #6e7688;
-      }
-
-      .rise {
-        opacity: 0;
-        transform: translateY(16px);
-        animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
-      }
-      .d1 {
-        animation-delay: 0.05s;
-      }
-      .d2 {
-        animation-delay: 0.15s;
-      }
-      .d3 {
-        animation-delay: 0.25s;
-      }
-      .d4 {
-        animation-delay: 0.35s;
-      }
-      .d5 {
-        animation-delay: 0.5s;
-      }
-      @keyframes rise {
-        to {
-          opacity: 1;
-          transform: none;
-        }
-      }
-
-      @media (max-width: 680px) {
-        form {
-          flex-direction: column;
-        }
-        button.cta {
-          width: 100%;
-        }
-        .values {
-          grid-template-columns: 1fr;
-        }
-        .value {
-          border-right: none;
-          border-bottom: 1px solid rgba(197, 168, 128, 0.35);
-        }
-        .value:last-child {
-          border-bottom: none;
-        }
-        footer {
-          justify-content: center;
-          text-align: center;
-        }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .rise {
-          opacity: 1;
-          transform: none;
-          animation: none;
-        }
-        html {
-          scroll-behavior: auto;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="bg"></div>
-
-    <div class="topbar rise d1">
-      <div class="logo">Kancelio<span class="accent">.pl</span></div>
-      <div class="top-actions">
-        <a class="calculator-link" href="/">Kalkulator opłat</a>
-        <div class="soon-pill">Wkrótce</div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dodaj wizytówkę kancelarii — Kancelio.pl</title>
+  <meta name="description" content="Dodaj wizytówkę kancelarii notarialnej i docieraj do klientów szukających notariusza według miasta i rodzaju czynności.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynj6vcLZwOq7UXkJoZbNkc7NwA0c=" crossorigin="">
+  <link rel="stylesheet" href="/assets/directory.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav shell" aria-label="Główna nawigacja">
+      <a class="brand" href="/">Kancelio<span>.pl</span></a>
+      <div class="nav-links">
+        <a href="/">Kalkulator opłat</a>
+        <a href="/kancelarie.html">Znajdź kancelarię</a>
       </div>
+    </nav>
+    <div class="hero shell">
+      <div class="eyebrow">Dla kancelarii notarialnych</div>
+      <h1>Wizytówka tam, gdzie klient podejmuje decyzję.</h1>
+      <p>Uzupełnij profil raz. Kancelio pokaże kancelarię osobom, które właśnie policzyły koszt czynności albo szukają konkretnej usługi w swoim mieście.</p>
     </div>
+  </header>
 
-    <main>
-      <div class="frame rise d2">
-        <div class="hero">
-          <div class="stamp" aria-hidden="true"><span>K</span></div>
-          <div class="eyebrow">Wczesny dostęp · Lista oczekujących</div>
-          <h1>
-            Kancelaria notarialna<br /><span class="accent"
-              >w cyfrowej oprawie.</span
-            >
-          </h1>
-          <div class="rule" aria-hidden="true"></div>
-          <p class="lede">
-            Przygotowanie, weryfikacja tożsamości i podpis aktów notarialnych —
-            z powagą wielowiekowej tradycji i precyzją nowoczesnego
-            oprogramowania.
-          </p>
+  <main>
+    <section class="benefits shell" aria-label="Korzyści z wizytówki">
+      <article class="benefit">
+        <div class="benefit-number">01</div>
+        <h2>Klienci z intencją</h2>
+        <p>Profil pojawia się po kalkulacji kosztu właściwej czynności, gdy klient jest gotowy szukać kancelarii.</p>
+      </article>
+      <article class="benefit">
+        <div class="benefit-number">02</div>
+        <h2>Miasto i usługa</h2>
+        <p>Wyszukiwanie łączy lokalizację z zakresem usług — od sprzedaży nieruchomości po sprawy spadkowe i obsługę spółek.</p>
+      </article>
+      <article class="benefit">
+        <div class="benefit-number">03</div>
+        <h2>Kontakt bez scrapingu</h2>
+        <p>Adres, e-mail i telefon nie trafiają do publicznego HTML ani API. Pokazujemy je dopiero po weryfikacji antybotowej.</p>
+      </article>
+    </section>
 
-          <div class="form-card">
-            <!-- Wired to MailerLite (account 2567663, form 195433785748096902). Emails go to your MailerLite group; double opt-in confirms them. -->
-            <form
-              id="waitlist"
-              action="https://assets.mailerlite.com/jsonp/2567663/forms/195433785748096902/subscribe"
-              method="POST"
-              novalidate
-            >
-              <div class="email-wrap">
-                <input
-                  type="email"
-                  name="fields[email]"
-                  inputmode="email"
-                  autocomplete="email"
-                  placeholder="Twój adres e-mail"
-                  aria-label="Adres e-mail"
-                  required
-                />
-              </div>
-              <input
-                type="text"
-                name="_gotcha"
-                class="honey"
-                tabindex="-1"
-                autocomplete="off"
-                aria-hidden="true"
-              />
-              <input type="hidden" name="ml-submit" value="1" />
-              <button type="submit" class="cta">Dołącz do listy</button>
-            </form>
-            <p class="form-note">
-              Zero spamu — jedna wiadomość, gdy otwieramy dostęp. Zapisując się,
-              akceptujesz
-              <a href="/privacy.html">politykę prywatności</a> (RODO).
-            </p>
-            <div
-              class="status"
-              id="status"
-              role="status"
-              aria-live="polite"
-            ></div>
-          </div>
+    <section class="section shell" id="profil">
+      <div class="section-heading">
+        <div class="eyebrow">Bezpłatna wizytówka</div>
+        <h2>Dodaj kancelarię do katalogu</h2>
+        <p>Zaloguj się kontem Google, uzupełnij dane i opublikuj profil. Możesz wrócić i zaktualizować go w dowolnym momencie.</p>
+      </div>
 
-          <div class="success" id="success" role="status" aria-live="polite">
-            <div class="seal" aria-hidden="true">✓</div>
-            <h3>Jesteś na liście.</h3>
-            <p>
-              Dziękujemy. Powiadomimy Cię na wskazany adres, gdy tylko otworzymy
-              wczesny dostęp do Kancelio.pl.
-            </p>
-          </div>
+      <div id="configNotice" class="notice error hidden" role="alert">
+        Moduł katalogu wymaga konfiguracji Supabase. Instrukcja znajduje się w <code>docs/notary-directory-setup.md</code>.
+      </div>
+
+      <div class="panel auth-panel">
+        <div>
+          <h2 id="authTitle">Zaloguj się, aby rozpocząć</h2>
+          <p id="authDescription">Google potwierdzi konto, a Kancelio utworzy bezpieczny profil właściciela wizytówki.</p>
+        </div>
+        <div id="signedOutActions" class="account-actions">
+          <button id="googleLogin" class="button gold" type="button"><span class="google-mark" aria-hidden="true"></span>Kontynuuj z Google</button>
+        </div>
+        <div id="signedInActions" class="account-actions hidden">
+          <span id="accountEmail" class="account-email"></span>
+          <button id="logout" class="button secondary small" type="button">Wyloguj się</button>
         </div>
       </div>
-    </main>
 
-    <div
-      class="wrap"
-      style="max-width: 820px; margin: 0 auto; width: 100%; padding: 0 28px"
-    >
-      <div class="values rise d5">
-        <div class="value">
-          <div class="ico" aria-hidden="true">
-            <svg
-              width="19"
-              height="19"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-              />
-              <path d="M14 2v6h6" />
-              <path d="M8 13h8M8 17h5" />
-            </svg>
-          </div>
-          <h4>Repertorium A cyfrowo</h4>
-          <p>
-            Numeracja, taksa i historia czynności bez ręcznych ksiąg i pomyłek.
-          </p>
+      <form id="officeForm" class="panel editor hidden" novalidate>
+        <div class="section-heading">
+          <h2>Twoja wizytówka</h2>
+          <p>Informacje oznaczone jako chronione są przechowywane osobno i ujawniane klientowi dopiero po CAPTCHA.</p>
         </div>
-        <div class="value">
-          <div class="ico" aria-hidden="true">
-            <svg
-              width="19"
-              height="19"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              <path d="m9 12 2 2 4-4" />
-            </svg>
+        <div class="editor-grid">
+          <div class="field full">
+            <label for="officeName">Nazwa kancelarii</label>
+            <input id="officeName" name="name" required minlength="3" maxlength="160" autocomplete="organization" placeholder="Kancelaria Notarialna Anna Kowalska">
           </div>
-          <h4>Weryfikacja tożsamości</h4>
-          <p>Potwierdzenie danych stawających w oparciu o bazy referencyjne.</p>
-        </div>
-        <div class="value">
-          <div class="ico" aria-hidden="true">
-            <svg
-              width="19"
-              height="19"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M12 20h9" />
-              <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
-            </svg>
+
+          <fieldset class="field full">
+            <legend>Zakres usług</legend>
+            <div id="serviceOptions" class="service-options"></div>
+            <small>Wybierz co najmniej jedną usługę. Te kategorie sterują wynikami wyszukiwania i dopasowaniem po kalkulatorze.</small>
+          </fieldset>
+
+          <div class="field">
+            <label for="officeCity">Miasto</label>
+            <input id="officeCity" name="city" required maxlength="100" autocomplete="address-level2" placeholder="Warszawa">
           </div>
-          <h4>Bezpieczny e-podpis</h4>
-          <p>Podpis aktu z pełną ścieżką audytu i szyfrowaniem end-to-end.</p>
+          <div class="field">
+            <label for="officeWebsite">Strona internetowa</label>
+            <input id="officeWebsite" name="website" type="url" maxlength="300" autocomplete="url" placeholder="https://kancelaria.pl">
+          </div>
+
+          <div class="field">
+            <label for="officeAddress">Adres <span aria-label="chroniony">🔒</span></label>
+            <input id="officeAddress" name="street_address" required maxlength="220" autocomplete="street-address" placeholder="ul. Przykładowa 12/3">
+          </div>
+          <div class="field">
+            <label for="officePostalCode">Kod pocztowy <span aria-label="chroniony">🔒</span></label>
+            <input id="officePostalCode" name="postal_code" required pattern="[0-9]{2}-[0-9]{3}" autocomplete="postal-code" placeholder="00-001">
+          </div>
+          <div class="field">
+            <label for="officeEmail">E-mail <span aria-label="chroniony">🔒</span></label>
+            <input id="officeEmail" name="email" type="email" required maxlength="254" autocomplete="email" placeholder="kontakt@kancelaria.pl">
+          </div>
+          <div class="field">
+            <label for="officePhone">Telefon <span aria-label="chroniony">🔒</span></label>
+            <input id="officePhone" name="phone" type="tel" minlength="6" maxlength="40" autocomplete="tel" placeholder="+48 22 000 00 00">
+          </div>
+
+          <div class="field full">
+            <label>Przybliżona lokalizacja na mapie</label>
+            <div class="map-help">
+              <span>Kliknij mapę w pobliżu kancelarii. Nie wskazuj dokładnego wejścia — pełny adres pozostaje chroniony.</span>
+              <span id="mapCoordinates">Nie ustawiono punktu</span>
+            </div>
+            <div id="officeMap" class="map-editor" role="application" aria-label="Wybierz przybliżoną lokalizację kancelarii"></div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <footer>
-      <div class="foot-logo">Kancelio<span class="accent">.pl</span></div>
-      <div class="foot-trust">Dane szyfrowane · Zgodność WCAG 2.1 AA</div>
-      <div class="foot-meta">© 2026 Kancelio.pl</div>
-    </footer>
+        <div id="formStatus" class="notice hidden" role="status" aria-live="polite"></div>
+        <div class="form-actions">
+          <button id="saveOffice" class="button gold" type="submit">Opublikuj wizytówkę</button>
+          <a class="button secondary" href="/kancelarie.html">Zobacz katalog</a>
+          <span class="privacy-note">Publikując, potwierdzasz prawo do podania danych kancelarii i akceptujesz <a href="/privacy.html">politykę prywatności</a>.</span>
+        </div>
+      </form>
+    </section>
+  </main>
 
-    <script>
-      const form = document.getElementById("waitlist");
-      const statusEl = document.getElementById("status");
-      const successEl = document.getElementById("success");
-      const btn = form.querySelector("button.cta");
-      const emailInput = form.querySelector('input[type="email"]');
-      const isValid = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  <footer class="site-footer">
+    <div class="footer-row shell"><span>Kancelio.pl · katalog kancelarii notarialnych</span><span>© 2026 Kancelio.pl</span></div>
+  </footer>
 
-      function showSuccess() {
-        form.parentElement.style.display = "none";
-        successEl.classList.add("show");
-        successEl.scrollIntoView({ behavior: "smooth", block: "center" });
-      }
-      function showError(msg) {
-        statusEl.textContent = msg;
-        statusEl.className = "status err";
-      }
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        statusEl.textContent = "";
-        statusEl.className = "status";
-        const email = emailInput.value.trim();
-        if (!isValid(email)) {
-          showError("Podaj poprawny adres e-mail, np. jan@kancelaria.pl");
-          emailInput.focus();
-          return;
-        }
-
-        const action = form.getAttribute("action");
-
-        btn.disabled = true;
-        btn.textContent = "Zapisuję…";
-        try {
-          await fetch(action, {
-            method: "POST",
-            body: new FormData(form),
-            mode: "no-cors",
-          });
-          showSuccess();
-        } catch (err) {
-          showError("Coś poszło nie tak. Spróbuj ponownie za chwilę.");
-          btn.disabled = false;
-          btn.textContent = "Dołącz do listy";
-        }
-      });
-    </script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script src="/assets/config.js" defer></script>
+  <script src="/assets/kancelio.js" defer></script>
+  <script src="/assets/office-editor.js" defer></script>
+</body>
 </html>

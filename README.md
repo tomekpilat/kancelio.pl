@@ -1,7 +1,7 @@
 # Kancelio.pl — kalkulator kosztów i katalog kancelarii
 
 A public notarial-cost calculator for **Kancelio.pl** plus a searchable notary
-directory. nginx serves the frontend; Supabase provides Google authentication,
+directory. nginx serves the frontend; Supabase provides email/password and Google authentication,
 PostgreSQL persistence and RLS, while Cloudflare Turnstile protects contact
 details before they are revealed.
 
@@ -17,7 +17,7 @@ details before they are revealed.
 kancelio.pl/
 ├── index.html              # default public notarial-cost calculator
 ├── kalkulator.html         # explicit URL alias for the calculator
-├── dla-kancelarii.html     # Google sign-in and office profile editor
+├── dla-kancelarii.html     # Account registration/sign-in and office profile editor
 ├── kancelarie.html         # public city/service search and map
 ├── assets/                 # shared directory styles and browser code
 ├── supabase/               # schema, RLS and protected contact function

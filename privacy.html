@@ -204,11 +204,12 @@
 
         <h2><span class="n">2</span>Jakie dane zbieramy</h2>
         <p>
-          Od przedstawicieli kancelarii zbieramy identyfikator konta Google,
-          adres e-mail konta, nazwę kancelarii, zakres usług, miasto, stronę
+          Od przedstawicieli kancelarii zbieramy identyfikator konta, adres
+          e-mail, wybraną metodę logowania, nazwę kancelarii, zakres usług, miasto, stronę
           internetową, przybliżony punkt na mapie oraz podane dane kontaktowe:
           adres, e-mail i telefon. Dane kontaktowe są przechowywane oddzielnie
-          od publicznych danych wizytówki.
+          od publicznych danych wizytówki. Hasła kont są obsługiwane przez
+          Supabase i nie są dostępne dla administratora Kancelio.
         </p>
         <p>
           Od osób wyszukujących możemy przetwarzać wybrane miasto i rodzaj
@@ -246,7 +247,7 @@
         </h2>
         <p>
           Korzystamy z <strong>Supabase</strong> do uwierzytelniania, bazy danych
-          i funkcji serwerowych, z <strong>Google</strong> jako dostawcy
+          i funkcji serwerowych, opcjonalnie z <strong>Google</strong> jako dostawcy
           logowania społecznościowego oraz z <strong>Cloudflare
           Turnstile</strong> do weryfikacji antybotowej. Mapa korzysta z danych
           i kafelków <strong>OpenStreetMap</strong>. Dostawcy mogą otrzymywać

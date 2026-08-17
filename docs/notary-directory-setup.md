@@ -43,7 +43,9 @@ Configure its client ID and secret under
 Set the Supabase Site URL and redirect allow list to include:
 
 - `https://kancelio.pl/dla-kancelarii.html`
+- `https://kancelio.pl/moje-sprawy.html`
 - `http://localhost:8080/dla-kancelarii.html`
+- `http://localhost:8080/moje-sprawy.html`
 
 ## 3. Configure Turnstile
 
@@ -71,14 +73,37 @@ Add these variables to the Coolify application:
 SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
 SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 TURNSTILE_SITE_KEY=...
+GA_MEASUREMENT_ID=G-...
 ```
 
 Only the publishable Supabase key and Turnstile site key reach the browser.
-The container entrypoint writes them to `/assets/config.js`. Do not put the
+The GA4 measurement ID is also public by design. The container entrypoint
+writes these values to `/assets/config.js`. Do not put the
 Supabase secret/service-role key or Turnstile secret in Coolify frontend
 variables.
 
-## 5. Local frontend preview
+`GA_MEASUREMENT_ID` is optional during local development. When it is missing,
+the site does not show an analytics banner and does not load Google Analytics.
+When configured, the Google tag is blocked until the visitor explicitly grants
+analytics consent. No calculator values, city, case titles, account data or form
+contents are attached to analytics events.
+See [analytics-setup.md](analytics-setup.md) for GA4 property, Coolify and
+verification steps.
+
+## 5. Apply the client-case migration
+
+Apply migrations again after deploying the client portal:
+
+```bash
+supabase db push
+```
+
+`client_cases` stores only the authenticated owner's case type, user-provided
+short title, optional city, checklist completion keys and status. RLS prevents
+users from reading or changing another user's cases. The migration also adds
+the three granular services used by the new calculators to office profiles.
+
+## 6. Local frontend preview
 
 Without runtime values, the pages render in setup mode and do not attempt auth
 or database requests. To exercise the complete flow, run the same Docker image
@@ -90,6 +115,7 @@ docker run --rm -p 8080:80 \
   -e SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co \
   -e SUPABASE_PUBLISHABLE_KEY=sb_publishable_... \
   -e TURNSTILE_SITE_KEY=... \
+  -e GA_MEASUREMENT_ID=G-... \
   kancelio-directory
 ```
 

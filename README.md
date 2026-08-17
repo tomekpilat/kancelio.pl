@@ -1,9 +1,9 @@
-# Kancelio.pl — Teaser (coming soon)
+# Kancelio.pl — kalkulator kosztów i teaser
 
-A single, static "coming soon" landing page for **Kancelio.pl** with an email
-waitlist form. No backend, no database — the page is served by nginx, and
-emails are collected by an external form provider (MailerLite / Brevo /
-Formspree). This keeps the teaser cheap and trivial to deploy.
+A static public notarial-cost calculator for **Kancelio.pl**, with a separate
+"coming soon" page and email waitlist for notary offices. No backend or
+database is required: nginx serves the pages and an external provider collects
+emails.
 
 > Note on language: repository files, config, and comments are in English.
 > The **visible page copy is in Polish on purpose** — the audience is Polish
@@ -15,8 +15,9 @@ Formspree). This keeps the teaser cheap and trivial to deploy.
 
 ```
 kancelio.pl/
-├── index.html              # the LIVE teaser (currently the "classic" variant)
-├── kalkulator.html         # public notarial-cost calculator prototype
+├── index.html              # default public notarial-cost calculator
+├── kalkulator.html         # explicit URL alias for the calculator
+├── dla-kancelarii.html     # notary-office teaser and waitlist
 ├── docs/                   # product and launch notes
 ├── Dockerfile              # nginx:alpine serving the static files
 ├── nginx.conf              # security headers, gzip, cache policy
@@ -33,12 +34,12 @@ kancelio.pl/
 
 ## Choosing a variant
 
-`index.html` is what visitors see. To switch the live design, copy a variant
-over it:
+`dla-kancelarii.html` is the notary teaser. To switch its design, copy a
+variant over it:
 
 ```bash
-cp variants/prestige.html index.html
-git add index.html && git commit -m "Switch teaser to prestige variant"
+cp variants/prestige.html dla-kancelarii.html
+git add dla-kancelarii.html && git commit -m "Switch teaser to prestige variant"
 ```
 
 ## Connect the email form (required to actually collect emails)
@@ -51,7 +52,7 @@ To collect real emails:
 
 1. Create a form at https://formspree.io and copy your endpoint
    (e.g. `https://formspree.io/f/abcdwxyz`).
-2. In `index.html` (and any variant you use), replace `YOUR_FORM_ID`:
+2. In `dla-kancelarii.html` (and any variant you use), replace `YOUR_FORM_ID`:
    ```html
    <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" ...>
    ```
@@ -74,7 +75,14 @@ docker run --rm -p 8080:80 kancelio-teaser
 # open http://localhost:8080
 ```
 
-Or, without Docker, just open `index.html` in a browser.
+Or, without Docker, just open `index.html` in a browser. The calculator is the
+default page at `http://localhost:8080/`; the teaser is available at
+`http://localhost:8080/dla-kancelarii.html`.
+
+The calculator also remains available at `http://localhost:8080/kalkulator.html`. Its
+current rules are kept in a versioned JavaScript object for the static
+validation phase. See `docs/calculator-launch-plan.md` before moving the rules
+into the future public API.
 
 The calculator is available at `http://localhost:8080/kalkulator.html`. Its
 current rules are kept in a versioned JavaScript object for the static

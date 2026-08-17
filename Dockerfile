@@ -1,4 +1,4 @@
-# Kancelio.pl teaser — a static site served by nginx.
+# Kancelio.pl calculator and teaser — a static site served by nginx.
 # The image is intentionally tiny and contains no backend: the teaser is a
 # "coming soon" page, and emails are collected by an external form provider
 # (MailerLite / Brevo / Formspree).
@@ -8,8 +8,10 @@ FROM nginx:alpine
 # Custom config (security headers, gzip, cache policy)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Landing page + privacy policy + variants
+# Public calculator (default), its explicit alias, the notary teaser and legal pages
 COPY index.html /usr/share/nginx/html/index.html
+COPY kalkulator.html /usr/share/nginx/html/kalkulator.html
+COPY dla-kancelarii.html /usr/share/nginx/html/dla-kancelarii.html
 COPY privacy.html /usr/share/nginx/html/privacy.html
 COPY variants/ /usr/share/nginx/html/variants/
 

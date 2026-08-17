@@ -19,6 +19,7 @@
   let markerLayer;
   let turnstileWidget = null;
   let activeOffice = null;
+  let searchedPoint = null;
 
   function initMap() {
     if (!window.L) return;
@@ -52,6 +53,9 @@
     card.className = "office-card";
     addText(card, "h2", office.name);
     addText(card, "div", office.city, "office-city");
+    if (Number.isFinite(office.distanceKm)) {
+      addText(card, "div", `około ${office.distanceKm < 1 ? `${Math.round(office.distanceKm * 1000)} m` : `${office.distanceKm.toFixed(1)} km`} od szukanego miejsca`, "office-distance");
+    }
 
     const tags = document.createElement("div");
     tags.className = "tags";
@@ -83,20 +87,48 @@
     return card;
   }
 
-  function updateMap(offices) {
+  function updateMap(offices, searchPoint = null) {
     if (!map || !markerLayer) return;
     markerLayer.clearLayers();
     const points = [];
+    if (searchPoint) {
+      const point = [searchPoint.lat, searchPoint.lng];
+      window.L.marker(point, { icon: app.mapPinIcon("search") }).bindPopup("<strong>Szukana lokalizacja</strong>").addTo(markerLayer);
+      points.push(point);
+    }
     offices.forEach((office) => {
       if (office.public_latitude == null || office.public_longitude == null) return;
       const point = [office.public_latitude, office.public_longitude];
-      const marker = window.L.marker(point).bindPopup(`<strong>${escapeHtml(office.name)}</strong><br>${escapeHtml(office.city)}<br><small>Punkt przybliżony</small>`);
+      const marker = window.L.marker(point, { icon: app.mapPinIcon() }).bindPopup(`<strong>${escapeHtml(office.name)}</strong><br>${escapeHtml(office.city)}<br><small>Punkt przybliżony</small>`);
       marker.addTo(markerLayer);
       points.push(point);
     });
-    if (points.length === 1) map.setView(points[0], 12);
+    if (points.length === 1) map.setView(points[0], searchPoint ? 14 : 12);
     else if (points.length > 1) map.fitBounds(markerLayer.getBounds(), { padding: [30, 30], maxZoom: 12 });
     else map.setView([52.0693, 19.4803], 6);
+  }
+
+  function distanceKm(from, office) {
+    if (office.public_latitude == null || office.public_longitude == null) return Number.POSITIVE_INFINITY;
+    const radians = (degrees) => degrees * Math.PI / 180;
+    const latDelta = radians(office.public_latitude - from.lat);
+    const lngDelta = radians(office.public_longitude - from.lng);
+    const lat1 = radians(from.lat);
+    const lat2 = radians(office.public_latitude);
+    const a = Math.sin(latDelta / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(lngDelta / 2) ** 2;
+    return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  async function geocode(query) {
+    if (!query) return null;
+    const match = await app.searchPolishAddress(query);
+    if (!match) return null;
+    const address = match.address || {};
+    return {
+      lat: Number(match.lat),
+      lng: Number(match.lon),
+      city: address.city || address.town || address.village || address.municipality || query,
+    };
   }
 
   function escapeHtml(value) {
@@ -115,31 +147,47 @@
 
   async function search() {
     if (!client) return;
-    summary.textContent = "Szukamy kancelarii…";
+    const enteredLocation = cityInput.value.trim();
+    summary.textContent = enteredLocation ? "Szukamy lokalizacji i pasujących kancelarii…" : "Szukamy kancelarii…";
     results.replaceChildren();
+    searchedPoint = null;
+    let cityForDatabase = enteredLocation;
+    if (enteredLocation) {
+      try {
+        searchedPoint = await geocode(enteredLocation);
+        if (searchedPoint) cityForDatabase = searchedPoint.city;
+      } catch (error) {
+        console.warn("Address lookup unavailable", error);
+      }
+    }
     const { data, error } = await client.rpc("search_notary_offices", {
-      p_city: cityInput.value.trim() || null,
+      p_city: cityForDatabase || null,
       p_service: serviceSelect.value || null,
     });
 
     if (error) {
       console.error(error);
       summary.textContent = "Nie udało się pobrać wyników. Spróbuj ponownie za chwilę.";
-      updateMap([]);
+      updateMap([], searchedPoint);
       return;
     }
 
-    const offices = data ?? [];
+    const offices = (data ?? []).map((office) => ({
+      ...office,
+      distanceKm: searchedPoint ? distanceKm(searchedPoint, office) : null,
+    })).sort((a, b) => (a.distanceKm ?? 0) - (b.distanceKm ?? 0));
     updateUrl();
     summary.textContent = offices.length
-      ? `Znaleziono: ${offices.length} ${offices.length === 1 ? "kancelarię" : "kancelarii"}. Punkty na mapie są przybliżone.`
-      : "Brak kancelarii dla wybranych kryteriów. Zmień miasto lub rodzaj czynności.";
+      ? `Znaleziono: ${offices.length} ${offices.length === 1 ? "kancelarię" : "kancelarii"}.${searchedPoint ? " Wyniki są ułożone od najbliższych." : ""} Punkty kancelarii są przybliżone.`
+      : searchedPoint
+        ? "Nie znaleźliśmy jeszcze kancelarii w tej lokalizacji. Zmień adres, miasto lub rodzaj czynności."
+        : "Brak kancelarii dla wybranych kryteriów. Zmień miasto lub rodzaj czynności.";
     if (!offices.length) {
       addText(results, "div", "Nie znaleźliśmy jeszcze pasującej kancelarii.", "empty");
     } else {
       results.replaceChildren(...offices.map(renderOffice));
     }
-    updateMap(offices);
+    updateMap(offices, searchedPoint);
   }
 
   function showContactStatus(message, type = "") {

@@ -19,6 +19,7 @@
   const serviceById = Object.fromEntries(services.map((service) => [service.id, service]));
   const config = window.KANCELIO_CONFIG || {};
   let client;
+  let lastGeocodeRequestAt = 0;
 
   function hasValue(value) {
     return typeof value === "string" && value.length > 0 && !value.startsWith("${");
@@ -48,6 +49,30 @@
     }
   }
 
+  function mapPinIcon(type = "office") {
+    if (!window.L?.divIcon) return undefined;
+    const label = type === "search" ? "Szukana lokalizacja" : "Kancelaria";
+    return window.L.divIcon({
+      className: "k-map-marker-shell",
+      html: `<span class="k-map-pin ${type === "search" ? "search" : ""}" role="img" aria-label="${label}"><span></span></span>`,
+      iconSize: [34, 42],
+      iconAnchor: [17, 40],
+      popupAnchor: [0, -36],
+    });
+  }
+
+  async function searchPolishAddress(query) {
+    const elapsed = Date.now() - lastGeocodeRequestAt;
+    if (elapsed < 1100) await new Promise((resolve) => window.setTimeout(resolve, 1100 - elapsed));
+    lastGeocodeRequestAt = Date.now();
+    const url = new URL("https://nominatim.openstreetmap.org/search");
+    url.search = new URLSearchParams({ q: `${query}, Polska`, format: "jsonv2", limit: "1", countrycodes: "pl", addressdetails: "1", "accept-language": "pl" });
+    const response = await fetch(url, { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error("Geocoding failed");
+    const [match] = await response.json();
+    return match || null;
+  }
+
   window.Kancelio = Object.freeze({
     config,
     services,
@@ -55,5 +80,7 @@
     isConfigured,
     getClient,
     safeWebsite,
+    mapPinIcon,
+    searchPolishAddress,
   });
 })();

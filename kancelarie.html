@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynj6vcLZwOq7UXkJoZbNkc7NwA0c=" crossorigin="">
-  <link rel="stylesheet" href="/assets/directory.css?v=20260817-5">
+  <link rel="stylesheet" href="/assets/directory.css?v=20260818-2">
 </head>
 <body>
   <header class="site-header">
@@ -25,7 +25,7 @@
     <div class="hero center shell">
       <div class="eyebrow">Katalog kancelarii</div>
       <h1>Znajdź notariusza dla swojej sprawy.</h1>
-      <p>Wybierz miasto i czynność. Wyniki uwzględniają usługi zadeklarowane przez kancelarie, a dane kontaktowe są chronione przed automatycznym scrapingiem.</p>
+      <p>Wpisz miasto lub adres i wybierz czynność. Pokażemy pasujące kancelarie na mapie, a ich dane kontaktowe odsłonimy dopiero po weryfikacji antybotowej.</p>
     </div>
   </header>
 
@@ -33,8 +33,9 @@
     <section class="search-panel" aria-label="Wyszukiwanie kancelarii">
       <form id="searchForm" class="search-form">
         <div>
-          <label for="citySearch">Miasto</label>
-          <input id="citySearch" name="city" autocomplete="address-level2" placeholder="np. Warszawa">
+          <label for="citySearch">Miasto lub adres</label>
+          <input id="citySearch" name="city" autocomplete="street-address" placeholder="np. Marszałkowska 10, Warszawa">
+          <small>Adres wysyłamy do wyszukiwarki OpenStreetMap Nominatim tylko po kliknięciu „Szukaj”; nie zapisujemy go w Kancelio.</small>
         </div>
         <div>
           <label for="serviceSearch">Rodzaj czynności</label>
@@ -80,7 +81,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
   <script src="/assets/config.js" defer></script>
-  <script src="/assets/kancelio.js?v=20260817-5" defer></script>
-  <script src="/assets/directory.js?v=20260817-5" defer></script>
+  <script src="/assets/kancelio.js?v=20260818-2" defer></script>
+  <script src="/assets/directory.js?v=20260818-2" defer></script>
 </body>
 </html>

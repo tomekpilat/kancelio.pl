@@ -18,6 +18,7 @@ COPY kalkulator.html /usr/share/nginx/html/kalkulator.html
 COPY dla-kancelarii.html /usr/share/nginx/html/dla-kancelarii.html
 COPY kancelarie.html /usr/share/nginx/html/kancelarie.html
 COPY kalkulatory.html /usr/share/nginx/html/kalkulatory.html
+COPY sprzedaz-nieruchomosci-checklista.html /usr/share/nginx/html/sprzedaz-nieruchomosci-checklista.html
 COPY odrzucenie-spadku.html /usr/share/nginx/html/odrzucenie-spadku.html
 COPY najem-okazjonalny.html /usr/share/nginx/html/najem-okazjonalny.html
 COPY umowa-przedwstepna.html /usr/share/nginx/html/umowa-przedwstepna.html
@@ -32,4 +33,5 @@ EXPOSE 80
 
 # Healthcheck for Coolify / Docker — nginx returns 200 on "/"
 HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
-  CMD wget -qO- http://127.0.0.1/ >/dev/null 2>&1 || exit 1
+  CMD wget -qO- http://127.0.0.1/ >/dev/null 2>&1 && \
+      wget -qO- http://127.0.0.1/sprzedaz-nieruchomosci-checklista.html >/dev/null 2>&1 || exit 1

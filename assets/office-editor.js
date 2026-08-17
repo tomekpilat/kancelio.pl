@@ -171,6 +171,9 @@
   renderServices();
 
   if (!client) {
+    if (window.location.protocol === "file:") {
+      configNotice.textContent = "Panel nie działa po otwarciu pliku lokalnego. Przejdź do https://kancelio.pl/dla-kancelarii.html.";
+    }
     configNotice.classList.remove("hidden");
     document.getElementById("googleLogin").disabled = true;
     return;

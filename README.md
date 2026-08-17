@@ -84,6 +84,11 @@ current rules are kept in a versioned JavaScript object for the static
 validation phase. See `docs/calculator-launch-plan.md` before moving the rules
 into the future public API.
 
+The calculator is available at `http://localhost:8080/kalkulator.html`. Its
+current rules are kept in a versioned JavaScript object for the static
+validation phase. See `docs/calculator-launch-plan.md` before moving the rules
+into the future public API.
+
 ## Deploy on Coolify (Hetzner)
 
 1. Push this repo to GitHub (see below).

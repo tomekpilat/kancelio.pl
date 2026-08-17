@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Moje sprawy — prywatny panel Kancelio.pl</title>
+  <meta name="description" content="Zapisuj sprawy notarialne i kompletuj dokumenty na prywatnych checklistach.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/tools.css?v=20260817-5"><link rel="stylesheet" href="/assets/client-portal.css?v=20260817-5">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav shell"><a class="brand" href="/">Kancelio<span>.pl</span></a><div class="nav-links"><a href="/kalkulatory.html">Kalkulatory</a><a href="/kancelarie.html">Znajdź kancelarię</a></div></nav>
+    <div class="hero shell"><div class="eyebrow">Prywatny panel klienta</div><h1>Przygotuj sprawę krok po kroku</h1><p>Zapisz rodzaj sprawy, skompletuj dokumenty według checklisty i przejdź do kancelarii, gdy będziesz gotowy.</p></div>
+  </header>
+
+  <main class="client-main shell">
+    <div id="portalNotice" class="portal-notice hidden" role="status" aria-live="polite"></div>
+    <section id="authSection" class="client-auth" aria-label="Logowanie do panelu klienta">
+      <div><div class="eyebrow">Konto klienta</div><h2 id="authTitle">Zaloguj się do swoich spraw</h2><p>Twoje checklisty są prywatne i dostępne tylko po zalogowaniu. Nie zapisujemy w nich kwot z kalkulatorów ani treści dokumentów.</p></div>
+      <div>
+        <div class="auth-tabs" role="group" aria-label="Wybierz sposób dostępu"><button id="loginMode" class="auth-tab active" type="button" aria-pressed="true">Logowanie</button><button id="signupMode" class="auth-tab" type="button" aria-pressed="false">Rejestracja</button></div>
+        <form id="authForm" class="auth-form">
+          <div><label for="authEmail">E-mail</label><input id="authEmail" type="email" required maxlength="254" autocomplete="email" placeholder="twoj@email.pl"></div>
+          <div><label for="authPassword">Hasło</label><input id="authPassword" type="password" required minlength="8" maxlength="128" autocomplete="current-password" placeholder="Minimum 8 znaków"></div>
+          <button id="authSubmit" class="button" type="submit">Zaloguj się</button>
+        </form>
+        <div class="auth-divider"><span>lub</span></div>
+        <button id="googleLogin" class="google-button" type="button">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-4z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4c-7.7 0-14.4 4.3-17.7 10.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2A12 12 0 0 1 12.9 28.5l-6.5 5C9.7 39.7 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20H42V20H24v8h11.3a12 12 0 0 1-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.7-.4-4z"/></svg>
+          <span>Kontynuuj przez Google</span>
+        </button>
+        <p class="auth-legal">Zakładając konto, akceptujesz <a href="/privacy.html">politykę prywatności</a>.</p>
+      </div>
+    </section>
+
+    <section id="caseDashboard" class="case-dashboard hidden">
+      <div class="dashboard-head"><div><div class="eyebrow">Moje sprawy</div><h2>Dokumenty pod kontrolą</h2><p id="accountEmail"></p></div><button id="logout" class="button secondary" type="button">Wyloguj się</button></div>
+      <form id="caseForm" class="case-form">
+        <div><label for="caseTitle">Własna nazwa sprawy</label><input id="caseTitle" maxlength="120" placeholder="np. Mieszkanie na Mokotowie"></div>
+        <div><label for="caseType">Rodzaj sprawy</label><select id="caseType" required></select></div>
+        <div><label for="caseCity">Miasto</label><input id="caseCity" maxlength="100" autocomplete="address-level2" placeholder="np. Warszawa"></div>
+        <button id="saveCase" class="button" type="submit">Dodaj sprawę</button>
+      </form>
+      <p class="legal-note">Dla prywatności użyj krótkiej, neutralnej nazwy. Nie wpisuj tu nazwisk, numerów PESEL, danych o zdrowiu, treści dokumentów ani opisu konfliktu.</p>
+      <div id="caseList" class="case-list" aria-live="polite"></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="footer-row shell"><span>Kancelio.pl · prywatny panel przygotowania sprawy</span><a href="/privacy.html">Prywatność i cookies</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/assets/config.js" defer></script><script src="/assets/kancelio.js?v=20260817-5" defer></script><script src="/assets/client-portal.js?v=20260817-5" defer></script>
+</body>
+</html>

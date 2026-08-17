@@ -1,0 +1,42 @@
+.client-main { padding: 54px 0 76px; }
+.client-auth { display: grid; grid-template-columns: minmax(0, .8fr) minmax(340px, 1fr); gap: 52px; padding: clamp(24px, 4vw, 44px); border: 1px solid var(--gold); background: #fff; box-shadow: var(--shadow); }
+.client-auth h2, .case-dashboard h2 { margin: 0 0 8px; font-size: 29px; }
+.client-auth p { margin: 0; color: var(--muted); }
+.auth-tabs { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--line); }
+.auth-tab { padding: 10px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted); font-weight: 700; cursor: pointer; }
+.auth-tab.active { border-color: var(--gold-deep); color: var(--navy); }
+.auth-form { display: grid; gap: 14px; margin-top: 20px; }
+.auth-form label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; }
+.auth-form input, .case-form input, .case-form select { width: 100%; padding: 12px 14px; border: 1px solid #bbb4a8; border-radius: 3px; background: #fff; }
+.auth-form input:focus, .case-form input:focus, .case-form select:focus { outline: 2px solid rgba(197,168,128,.38); border-color: var(--gold-deep); }
+.auth-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--muted); font-size: 12px; }
+.auth-divider::before, .auth-divider::after { content: ""; flex: 1; border-top: 1px solid var(--line); }
+.google-button { display: flex; width: 100%; min-height: 44px; justify-content: center; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid #747775; border-radius: 4px; background: #fff; color: #1f1f1f; font: 500 14px/20px Arial, sans-serif; cursor: pointer; }
+.google-button svg { width: 20px; height: 20px; }
+.auth-legal { margin-top: 14px !important; text-align: center; font-size: 11px; }
+.portal-notice { margin: 16px 0; padding: 13px 16px; border-left: 3px solid var(--gold); background: #f4f0e8; }
+.portal-notice.error { border-color: var(--danger); color: var(--danger); background: #fff3f3; }
+.portal-notice.success { border-color: var(--success); color: var(--success); background: #effaf4; }
+.dashboard-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 30px; }
+.dashboard-head p { margin: 0; color: var(--muted); }
+.case-form { display: grid; grid-template-columns: 1.4fr 1fr 1fr auto; gap: 13px; align-items: end; padding: 22px; border: 1px solid var(--line); background: #fff; }
+.case-form label { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 700; }
+.case-list { display: grid; gap: 18px; margin-top: 28px; }
+.case-card { padding: clamp(22px, 3vw, 32px); border: 1px solid var(--line); background: #fff; box-shadow: 0 10px 30px rgba(11,19,37,.06); }
+.case-card-head { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; }
+.case-card h3 { margin: 0 0 3px; font-size: 25px; }
+.case-meta { color: var(--gold-deep); font-size: 12px; font-weight: 700; }
+.case-progress { min-width: 92px; text-align: right; color: var(--muted); font-size: 12px; }
+.progress-track { height: 5px; margin-top: 6px; overflow: hidden; border-radius: 999px; background: var(--line); }
+.progress-track span { display: block; height: 100%; background: var(--gold-deep); }
+.case-checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
+.case-item { display: flex; gap: 10px; align-items: flex-start; padding: 13px; border: 1px solid var(--line); background: var(--paper); }
+.case-item input { margin-top: 4px; accent-color: var(--gold-deep); }
+.case-item strong { display: block; font-size: 13px; }
+.case-item small { display: block; margin-top: 2px; color: var(--muted); }
+.case-item.complete { opacity: .7; }
+.case-item.complete strong { text-decoration: line-through; }
+.case-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.empty-cases { padding: 34px; border: 1px dashed var(--line); background: #fff; color: var(--muted); text-align: center; }
+@media (max-width: 850px) { .client-auth, .case-checklist { grid-template-columns: 1fr; } .case-form { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .case-form { grid-template-columns: 1fr; } .dashboard-head, .case-card-head { flex-direction: column; } .case-progress { width: 100%; text-align: left; } }

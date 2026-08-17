@@ -17,7 +17,14 @@ COPY index.html /usr/share/nginx/html/index.html
 COPY kalkulator.html /usr/share/nginx/html/kalkulator.html
 COPY dla-kancelarii.html /usr/share/nginx/html/dla-kancelarii.html
 COPY kancelarie.html /usr/share/nginx/html/kancelarie.html
+COPY kalkulatory.html /usr/share/nginx/html/kalkulatory.html
+COPY odrzucenie-spadku.html /usr/share/nginx/html/odrzucenie-spadku.html
+COPY najem-okazjonalny.html /usr/share/nginx/html/najem-okazjonalny.html
+COPY umowa-przedwstepna.html /usr/share/nginx/html/umowa-przedwstepna.html
+COPY moje-sprawy.html /usr/share/nginx/html/moje-sprawy.html
 COPY privacy.html /usr/share/nginx/html/privacy.html
+COPY robots.txt /usr/share/nginx/html/robots.txt
+COPY sitemap.xml /usr/share/nginx/html/sitemap.xml
 COPY assets/ /usr/share/nginx/html/assets/
 COPY variants/ /usr/share/nginx/html/variants/
 

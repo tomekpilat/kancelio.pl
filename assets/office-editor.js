@@ -15,6 +15,14 @@
   const accountEmail = document.getElementById("accountEmail");
   const authTitle = document.getElementById("authTitle");
   const authDescription = document.getElementById("authDescription");
+  const emailAuthForm = document.getElementById("emailAuthForm");
+  const authEmail = document.getElementById("authEmail");
+  const authPassword = document.getElementById("authPassword");
+  const emailAuthSubmit = document.getElementById("emailAuthSubmit");
+  const authStatus = document.getElementById("authStatus");
+  const loginMode = document.getElementById("loginMode");
+  const signupMode = document.getElementById("signupMode");
+  const googleLogin = document.getElementById("googleLogin");
   const status = document.getElementById("formStatus");
   const saveButton = document.getElementById("saveOffice");
   const cityInput = document.getElementById("officeCity");
@@ -38,6 +46,7 @@
   let marker = null;
   let coordinates = null;
   let loadedUserId = null;
+  let emailAuthMode = "login";
 
   function normalize(value) {
     return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ł/g, "l").toLowerCase();
@@ -67,6 +76,54 @@
   function hideStatus() {
     status.className = "notice hidden";
     status.textContent = "";
+  }
+
+  function showAuthStatus(message, type = "") {
+    authStatus.textContent = message;
+    authStatus.className = `notice ${type}`.trim();
+  }
+
+  function hideAuthStatus() {
+    authStatus.textContent = "";
+    authStatus.className = "notice hidden";
+  }
+
+  function setEmailAuthMode(mode) {
+    emailAuthMode = mode;
+    const signingUp = mode === "signup";
+    loginMode.classList.toggle("active", !signingUp);
+    loginMode.setAttribute("aria-pressed", String(!signingUp));
+    signupMode.classList.toggle("active", signingUp);
+    signupMode.setAttribute("aria-pressed", String(signingUp));
+    authPassword.setAttribute("autocomplete", signingUp ? "new-password" : "current-password");
+    emailAuthSubmit.textContent = signingUp ? "Załóż konto" : "Zaloguj się";
+    authTitle.textContent = signingUp ? "Utwórz konto kancelarii" : "Zaloguj się, aby rozpocząć";
+    authDescription.textContent = signingUp
+      ? "Podaj e-mail i ustaw hasło. Link potwierdzający wyślemy na Twoją skrzynkę."
+      : "Użyj własnego konta e-mail albo kontynuuj przez Google.";
+    hideAuthStatus();
+  }
+
+  function setAuthBusy(busy) {
+    emailAuthSubmit.disabled = busy;
+    googleLogin.disabled = busy;
+    loginMode.disabled = busy;
+    signupMode.disabled = busy;
+  }
+
+  function authErrorMessage(error) {
+    const code = error?.code ?? "";
+    const message = error?.message ?? "";
+    if (code === "invalid_credentials" || /invalid login credentials/i.test(message)) {
+      return "Nieprawidłowy e-mail lub hasło.";
+    }
+    if (code === "email_not_confirmed" || /email not confirmed/i.test(message)) {
+      return "Najpierw potwierdź adres e-mail, korzystając z wiadomości od Kancelio.";
+    }
+    if (code === "weak_password" || /password should be at least/i.test(message)) {
+      return "Hasło nie spełnia wymagań bezpieczeństwa. Użyj co najmniej 8 znaków.";
+    }
+    return "Nie udało się wykonać operacji. Sprawdź dane i spróbuj ponownie.";
   }
 
   function updateCoordinates(lat, lng, center = false) {
@@ -150,8 +207,7 @@
     signedOutActions.classList.toggle("hidden", signedIn);
     form.classList.toggle("hidden", !signedIn);
     accountEmail.textContent = session?.user?.email ?? "";
-    authTitle.textContent = "Zaloguj się, aby rozpocząć";
-    authDescription.textContent = "Google potwierdzi konto, a Kancelio utworzy bezpieczny profil właściciela wizytówki.";
+    if (!signedIn) setEmailAuthMode(emailAuthMode);
     if (signedIn && loadedUserId !== session.user.id) {
       loadedUserId = session.user.id;
       initMap();
@@ -171,17 +227,54 @@
   renderServices();
 
   if (!client) {
+    if (window.location.protocol === "file:") {
+      configNotice.textContent = "Panel nie działa po otwarciu pliku lokalnego. Przejdź do https://kancelio.pl/dla-kancelarii.html.";
+    }
     configNotice.classList.remove("hidden");
-    document.getElementById("googleLogin").disabled = true;
+    signedOutActions.querySelectorAll("button, input").forEach((element) => { element.disabled = true; });
     return;
   }
 
-  document.getElementById("googleLogin").addEventListener("click", async () => {
+  loginMode.addEventListener("click", () => setEmailAuthMode("login"));
+  signupMode.addEventListener("click", () => setEmailAuthMode("signup"));
+
+  emailAuthForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    hideAuthStatus();
+    if (!emailAuthForm.reportValidity()) return;
+
+    setAuthBusy(true);
+    try {
+      const credentials = { email: authEmail.value.trim(), password: authPassword.value };
+      if (emailAuthMode === "signup") {
+        const { data, error } = await client.auth.signUp({
+          ...credentials,
+          options: { emailRedirectTo: `${window.location.origin}/dla-kancelarii.html` },
+        });
+        if (error) throw error;
+        authPassword.value = "";
+        if (!data.session) {
+          showAuthStatus("Konto zostało utworzone. Sprawdź skrzynkę e-mail i potwierdź rejestrację.", "success");
+        }
+      } else {
+        const { error } = await client.auth.signInWithPassword(credentials);
+        if (error) throw error;
+        authPassword.value = "";
+      }
+    } catch (error) {
+      showAuthStatus(authErrorMessage(error), "error");
+    } finally {
+      setAuthBusy(false);
+    }
+  });
+
+  googleLogin.addEventListener("click", async () => {
+    setAuthBusy(true);
     const redirectTo = `${window.location.origin}/dla-kancelarii.html`;
     const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo } });
     if (error) {
-      configNotice.textContent = "Nie udało się rozpocząć logowania przez Google.";
-      configNotice.classList.remove("hidden");
+      showAuthStatus("Nie udało się rozpocząć logowania przez Google.", "error");
+      setAuthBusy(false);
     }
   });
 

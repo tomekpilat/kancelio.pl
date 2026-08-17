@@ -1,7 +1,7 @@
 # Notary directory setup
 
-The directory keeps the nginx frontend static while Supabase provides Google
-authentication, PostgreSQL persistence, row-level security and the server-side
+The directory keeps the nginx frontend static while Supabase provides email/password
+and Google authentication, PostgreSQL persistence, row-level security and the server-side
 contact-reveal function. Cloudflare Turnstile protects email, phone and street
 address from direct anonymous access.
 
@@ -25,10 +25,19 @@ Anonymous users have no table-level access. Public search goes through
 `search_notary_offices`, which only returns safe fields. RLS limits office and
 contact edits to the authenticated owner.
 
-## 2. Enable Google authentication
+## 2. Configure authentication
 
-In Google Auth Platform, create a Web OAuth client. Add the production origin
-and the local development origin. Configure its client ID and secret under
+Keep the Supabase Email provider enabled. Decide whether users must confirm
+their address before the first sign-in; the frontend supports the confirmation
+flow and redirects back to `https://kancelio.pl/dla-kancelarii.html`.
+
+For production email delivery, configure custom SMTP under **Supabase → Project
+Settings → Authentication → SMTP Settings**. The default Supabase mailer is
+rate-limited and intended only for initial testing.
+
+To enable social authentication with Google, create a Web OAuth client in
+Google Auth Platform. Add the production and local development origins.
+Configure its client ID and secret under
 **Supabase → Authentication → Providers → Google**.
 
 Set the Supabase Site URL and redirect allow list to include:

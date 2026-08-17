@@ -7,7 +7,7 @@ window.KANCELIO_CONFIG = Object.freeze({
 
 (function loadPrivacyControls() {
   const siteScript = document.createElement("script");
-  siteScript.src = "/assets/site-enhancements.js?v=20260817-5";
+  siteScript.src = "/assets/site-enhancements.js?v=20260818-1";
   siteScript.defer = true;
   document.head.append(siteScript);
   const script = document.createElement("script");

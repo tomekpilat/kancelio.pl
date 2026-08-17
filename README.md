@@ -4,7 +4,8 @@ A public notarial-cost calculator for **Kancelio.pl** plus a searchable notary
 directory. nginx serves the frontend; Supabase provides email/password and Google authentication,
 PostgreSQL persistence and RLS, while Cloudflare Turnstile protects contact
 details before they are revealed. The public product also includes guided
-calculators, private client case checklists and consent-gated GA4 analytics.
+calculators, collaborative end-to-end case checklists, private document uploads,
+assignments, invitation links and consent-gated GA4 analytics.
 
 > Note on language: repository files, config, and comments are in English.
 > The **visible page copy is in Polish on purpose** — the audience is Polish
@@ -59,6 +60,8 @@ search and protected contact reveal require Supabase and Turnstile. Follow
 Google OAuth, CAPTCHA and Coolify environment setup.
 GA4 creation, consent and event verification are documented in
 [docs/analytics-setup.md](docs/analytics-setup.md).
+Collaborative case migration and verification are documented in
+[docs/collaborative-cases-setup.md](docs/collaborative-cases-setup.md).
 
 ## Legacy email form notes
 

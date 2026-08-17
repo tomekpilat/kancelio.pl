@@ -29,6 +29,12 @@
   const emailInput = document.getElementById("officeEmail");
   const coordinateLabel = document.getElementById("mapCoordinates");
   const editorTitle = document.getElementById("editorTitle");
+  const addressInput = document.getElementById("officeAddress");
+  const postalCodeInput = document.getElementById("officePostalCode");
+  const locateAddressButton = document.getElementById("locateOfficeAddress");
+  const geocodeStatus = document.getElementById("officeGeocodeStatus");
+  const dangerZone = document.getElementById("officeDangerZone");
+  const deleteOfficeButton = document.getElementById("deleteOffice");
 
   const cityCenters = {
     warszawa: [52.2297, 21.0122], krakow: [50.0647, 19.945], lodz: [51.7592, 19.456],
@@ -126,16 +132,48 @@
     return "Nie udało się wykonać operacji. Sprawdź dane i spróbuj ponownie.";
   }
 
-  function updateCoordinates(lat, lng, center = false) {
+  function updateCoordinates(lat, lng, center = false, zoom = 12) {
     coordinates = [Number(lat.toFixed(5)), Number(lng.toFixed(5))];
     coordinateLabel.textContent = `${coordinates[0]}, ${coordinates[1]} (punkt przybliżony)`;
-    if (!marker) marker = window.L.marker(coordinates, { draggable: true }).addTo(map);
+    if (!marker) marker = window.L.marker(coordinates, { draggable: true, icon: app.mapPinIcon() }).addTo(map);
     else marker.setLatLng(coordinates);
-    if (center) map.setView(coordinates, 12);
+    if (center) map.setView(coordinates, zoom);
     marker.off("dragend").on("dragend", () => {
       const point = marker.getLatLng();
       updateCoordinates(point.lat, point.lng);
     });
+  }
+
+  async function locateOfficeAddress() {
+    const street = addressInput.value.trim();
+    const city = cityInput.value.trim();
+    if (!street || !city) {
+      geocodeStatus.textContent = "Najpierw wpisz adres i miasto.";
+      (street ? cityInput : addressInput).focus();
+      return;
+    }
+
+    locateAddressButton.disabled = true;
+    locateAddressButton.textContent = "Szukam adresu…";
+    geocodeStatus.textContent = "";
+    try {
+      const query = [street, postalCodeInput.value.trim(), city].filter(Boolean).join(", ");
+      const match = await app.searchPolishAddress(query);
+      if (!match) {
+        geocodeStatus.textContent = "Nie znaleziono adresu. Uzupełnij ulicę, numer i miasto albo wskaż punkt ręcznie.";
+        return;
+      }
+      const roundedLat = Math.round(Number(match.lat) * 1000) / 1000;
+      const roundedLng = Math.round(Number(match.lon) * 1000) / 1000;
+      updateCoordinates(roundedLat, roundedLng, true, 15);
+      geocodeStatus.textContent = "Znaleziono — ustawiliśmy przybliżony punkt. Możesz przeciągnąć marker.";
+    } catch (error) {
+      console.error(error);
+      geocodeStatus.textContent = "Wyszukiwanie adresu jest chwilowo niedostępne. Wskaż punkt na mapie.";
+    } finally {
+      locateAddressButton.disabled = false;
+      locateAddressButton.textContent = "Znajdź wpisany adres na mapie";
+    }
   }
 
   function initMap() {
@@ -152,8 +190,8 @@
     document.getElementById("officeName").value = office?.name ?? "";
     cityInput.value = office?.city ?? "";
     document.getElementById("officeWebsite").value = office?.website ?? "";
-    document.getElementById("officeAddress").value = contact?.street_address ?? "";
-    document.getElementById("officePostalCode").value = contact?.postal_code ?? "";
+    addressInput.value = contact?.street_address ?? "";
+    postalCodeInput.value = contact?.postal_code ?? "";
     emailInput.value = contact?.email ?? session?.user?.email ?? "";
     document.getElementById("officePhone").value = contact?.phone ?? "";
     const selected = new Set(office?.services ?? []);
@@ -193,6 +231,7 @@
     populateForm(office, contact);
     saveButton.textContent = officeId ? "Zapisz zmiany" : "Opublikuj wizytówkę";
     editorTitle.textContent = officeId ? "Edytuj profil kancelarii" : "Uzupełnij profil kancelarii";
+    dangerZone.classList.toggle("hidden", !officeId);
   }
 
   function setSession(nextSession) {
@@ -206,7 +245,7 @@
     profileSection.classList.toggle("dashboard-section", signedIn);
     signedOutActions.classList.toggle("hidden", signedIn);
     form.classList.toggle("hidden", !signedIn);
-    accountEmail.textContent = session?.user?.email ?? "";
+    if (accountEmail) accountEmail.textContent = session?.user?.email ?? "";
     if (!signedIn) setEmailAuthMode(emailAuthMode);
     if (signedIn && loadedUserId !== session.user.id) {
       loadedUserId = session.user.id;
@@ -278,9 +317,11 @@
     }
   });
 
-  document.getElementById("logout").addEventListener("click", async () => {
+  document.getElementById("logout")?.addEventListener("click", async () => {
     await client.auth.signOut();
   });
+
+  locateAddressButton.addEventListener("click", locateOfficeAddress);
 
   cityInput.addEventListener("change", () => {
     if (coordinates) return;
@@ -345,6 +386,8 @@
 
       showStatus("Wizytówka została opublikowana i jest już dostępna w wyszukiwarce.", "success");
       saveButton.textContent = "Zapisz zmiany";
+      editorTitle.textContent = "Edytuj profil kancelarii";
+      dangerZone.classList.remove("hidden");
     } catch (error) {
       console.error(error);
       showStatus("Nie udało się zapisać wizytówki. Sprawdź dane i spróbuj ponownie.", "error");
@@ -352,6 +395,39 @@
     } finally {
       saveButton.disabled = false;
     }
+  });
+
+  deleteOfficeButton.addEventListener("click", async () => {
+    if (!officeId) return;
+    const confirmed = window.confirm("Usunąć wizytówkę kancelarii wraz z chronionymi danymi kontaktowymi? Konto do logowania pozostanie aktywne. Tej operacji nie można cofnąć.");
+    if (!confirmed) return;
+
+    deleteOfficeButton.disabled = true;
+    deleteOfficeButton.textContent = "Usuwam…";
+    hideStatus();
+    const { error } = await client.from("notary_offices").delete().eq("id", officeId);
+    if (error) {
+      console.error(error);
+      showStatus("Nie udało się usunąć wizytówki. Spróbuj ponownie.", "error");
+      deleteOfficeButton.disabled = false;
+      deleteOfficeButton.textContent = "Usuń wizytówkę";
+      return;
+    }
+
+    officeId = null;
+    form.reset();
+    marker?.remove();
+    marker = null;
+    coordinates = null;
+    coordinateLabel.textContent = "Nie ustawiono punktu";
+    geocodeStatus.textContent = "";
+    populateForm(null, null);
+    dangerZone.classList.add("hidden");
+    editorTitle.textContent = "Uzupełnij profil kancelarii";
+    saveButton.textContent = "Opublikuj wizytówkę";
+    deleteOfficeButton.disabled = false;
+    deleteOfficeButton.textContent = "Usuń wizytówkę";
+    showStatus("Wizytówka i jej dane kontaktowe zostały usunięte. Konto nadal jest aktywne.", "success");
   });
 
   client.auth.getSession().then(({ data, error }) => {

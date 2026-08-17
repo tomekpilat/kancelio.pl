@@ -332,9 +332,13 @@
     const progress = createElement("div", null, "case-progress"); progress.append(createElement("span", `${completedCount}/${items.length} gotowe`));
     const track = createElement("div", null, "progress-track"); const bar = document.createElement("span"); bar.style.width = `${percent}%`; track.append(bar); progress.append(track);
     head.append(titleBox, progress); card.append(head, renderParticipants(caseItem));
+    let openedGroup = false;
     categories.forEach(([category, label]) => {
       const groupItems = items.filter((item) => item.category === category); if (!groupItems.length) return;
-      const section = createElement("section", null, "checklist-group"); section.append(createElement("h4", label));
+      const section = createElement("details", null, "checklist-group");
+      const groupCompleted = groupItems.filter((item) => item.completed).length;
+      if (!openedGroup && groupCompleted < groupItems.length) { section.open = true; openedGroup = true; }
+      section.append(createElement("summary", `${label} · ${groupCompleted}/${groupItems.length}`));
       const checklist = createElement("div", null, "case-checklist"); groupItems.forEach((item) => checklist.append(renderItem(caseItem, item)));
       section.append(checklist); card.append(section);
     });

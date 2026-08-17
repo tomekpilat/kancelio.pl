@@ -10,6 +10,10 @@ window.KANCELIO_CONFIG = Object.freeze({
   siteScript.src = "/assets/site-enhancements.js?v=20260818-1";
   siteScript.defer = true;
   document.head.append(siteScript);
+  const navScript = document.createElement("script");
+  navScript.src = "/assets/site-nav.js?v=20260818-2";
+  navScript.defer = true;
+  document.head.append(navScript);
   const script = document.createElement("script");
   script.src = "/assets/analytics.js?v=20260817-5";
   script.defer = true;

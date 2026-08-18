@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zweryfikowany specjalista — Kancelio.pl</title>
+  <meta name="description" content="Zweryfikowany specjalista wspierający klientów na konkretnym etapie sprawy.">
+  <link id="profileCanonical" rel="canonical" href="https://kancelio.pl/specjalisci.html">
+  <meta property="og:type" content="profile"><meta id="profileOgTitle" property="og:title" content="Zweryfikowany specjalista — Kancelio.pl"><meta id="profileOgDescription" property="og:description" content="Znajdź specjalistę dopasowanego do procesu i etapu sprawy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3ynj6vcLZwOq7UXkJoZbNkc7NwA0c=" crossorigin="">
+  <link rel="stylesheet" href="/assets/directory.css?v=20260818-3"><link rel="stylesheet" href="/assets/specialists.css?v=20260818-3"><link rel="stylesheet" href="/assets/public-profile.css?v=20260818-1">
+</head>
+<body>
+  <header class="site-header"><nav class="nav shell" aria-label="Główna nawigacja"><a class="brand" href="/">Kancelio<span>.pl</span></a></nav><div class="profile-hero shell"><a class="profile-back" href="/specjalisci.html">← Wróć do wyszukiwarki</a><div class="eyebrow">Zweryfikowany profil</div><h1 id="publicProfileName">Pobieramy profil…</h1><p id="publicProfileLead">Sprawdzamy aktualne dane specjalisty.</p></div></header>
+  <main class="public-profile-main shell">
+    <div id="publicProfileNotice" class="notice hidden" role="status" aria-live="polite"></div>
+    <article id="publicProfile" class="public-profile-card hidden">
+      <section class="public-profile-content">
+        <div class="verified-line"><span class="verified-badge">✓ Profil zweryfikowany</span><span id="publicProfileVerifiedAt"></span></div>
+        <div id="publicProfileBio" class="profile-bio"></div>
+        <section><h2>W czym pomaga</h2><div id="publicProfileServices" class="profile-tag-list"></div></section>
+        <section><h2>Obsługiwane sprawy</h2><div id="publicProfileCases" class="profile-tag-list"></div></section>
+        <section><h2>Etapy procesu</h2><div id="publicProfileStages" class="profile-tag-list"></div></section>
+        <div id="publicProfileRemote" class="remote-note hidden">Możliwa obsługa zdalna</div>
+        <div class="profile-actions"><button id="publicProfileContact" class="button gold" type="button">Pokaż kontakt</button><a id="publicProfileWebsite" class="button secondary hidden" target="_blank" rel="noopener noreferrer">Strona specjalisty</a></div>
+      </section>
+      <aside class="public-profile-aside"><div><div class="eyebrow">Lokalizacja</div><h2 id="publicProfileCity"></h2><p>Mapa pokazuje punkt przybliżony. Pełny adres ujawnimy dopiero po weryfikacji antybotowej.</p></div><div id="publicProfileMap" class="profile-map" role="application" aria-label="Przybliżona lokalizacja specjalisty"></div><div class="profile-next"><strong>Prowadzisz konkretną sprawę?</strong><p>Zapisz checklistę, dokumenty i zadania, a potem wróć do specjalistów potrzebnych na danym etapie.</p><a class="button secondary" href="/moje-sprawy.html">Przejdź do swoich spraw</a></div></aside>
+    </article>
+  </main>
+  <dialog id="publicProfileContactDialog" aria-labelledby="publicProfileContactTitle"><div class="dialog-inner"><div class="dialog-head"><div><div class="eyebrow">Chronione dane kontaktowe</div><h2 id="publicProfileContactTitle">Potwierdź, że nie jesteś botem</h2></div><button id="closePublicProfileDialog" class="icon-button" type="button" aria-label="Zamknij">×</button></div><p>Po weryfikacji pokażemy adres, e-mail i telefon.</p><div id="publicProfileTurnstile"></div><div id="publicProfileContactStatus" class="notice hidden" role="status"></div><div id="publicProfileContactDetails" class="contact-details hidden"></div></div></dialog>
+  <footer class="site-footer"><div class="footer-row shell"><span>Kancelio.pl · zweryfikowani partnerzy procesu</span><a href="/weryfikacja-specjalistow.html">Jak weryfikujemy profile</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9coqIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script><script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script><script src="/assets/config.js?v=20260818-4" defer></script><script src="/assets/kancelio.js?v=20260818-3" defer></script><script src="/assets/public-profile.js?v=20260818-1" defer></script>
+</body>
+</html>

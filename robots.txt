@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /moje-sprawy.html
-Disallow: /dla-kancelarii.html
+Disallow: /moderacja.html
 
 Sitemap: https://kancelio.pl/sitemap.xml
+Sitemap: https://kancelio.pl/profile-sitemap.xml

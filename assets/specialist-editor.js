@@ -39,16 +39,27 @@
     $("profileEmail").value = contact?.email || session?.user?.email || ""; $("profilePhone").value = contact?.phone || ""; $("profileAddress").value = contact?.street_address || ""; $("profilePostalCode").value = contact?.postal_code || "";
     currentCoordinates = { latitude: profile?.public_latitude ?? null, longitude: profile?.public_longitude ?? null };
   }
+  function renderModeration(profile) {
+    const box = $("specialistModerationStatus"); box.replaceChildren();
+    if (!profile) { box.className = "owner-verification hidden"; return; }
+    const status = profile.moderation_status || "pending"; box.className = `owner-verification ${status}`;
+    if (status === "verified") {
+      box.append("Profil zweryfikowany. Jest widoczny w katalogu, gdy publikacja jest włączona. ");
+      if (profile.slug) { const link = document.createElement("a"); link.href = `/specjalista/${encodeURIComponent(profile.slug)}`; link.textContent = "Zobacz publiczny profil →"; box.append(link); }
+    } else if (status === "rejected") {
+      box.textContent = `Profil wymaga poprawy przed publikacją.${profile.moderation_note ? ` Powód: ${profile.moderation_note}` : ""}`;
+    } else box.textContent = "Profil czeka na weryfikację Kancelio. Po akceptacji pojawi się w publicznym katalogu.";
+  }
   async function loadProfile() {
-    const { data: profile, error } = await client.from("specialist_profiles").select("id,name,profession,city,bio,services,case_types,stages,website,remote_available,public_latitude,public_longitude,is_published").maybeSingle();
+    const { data: profile, error } = await client.from("specialist_profiles").select("id,slug,name,profession,city,bio,services,case_types,stages,website,remote_available,public_latitude,public_longitude,is_published,moderation_status,moderation_note,verified_at").maybeSingle();
     if (error) { notice("Nie udało się pobrać profilu. Zastosuj migrację modułu specjalistów.", "error"); return; }
     profileId = profile?.id || null;
     let contact = null;
     if (profileId) { const result = await client.from("specialist_contacts").select("street_address,postal_code,email,phone").eq("profile_id", profileId).maybeSingle(); if (!result.error) contact = result.data; }
-    populate(profile, contact); $("specialistEditorTitle").textContent = profileId ? "Edytuj profil specjalisty" : "Uzupełnij profil specjalisty"; $("specialistDanger").classList.toggle("hidden", !profileId);
+    populate(profile, contact); renderModeration(profile); $("specialistEditorTitle").textContent = profileId ? "Edytuj profil specjalisty" : "Uzupełnij profil specjalisty"; $("specialistDanger").classList.toggle("hidden", !profileId);
   }
   async function setSession(nextSession) {
-    session = nextSession; $("specialistAuth").classList.toggle("hidden", Boolean(session)); $("specialistEditor").classList.toggle("hidden", !session); $("specialistAccountEmail").textContent = session?.user?.email || "";
+    session = nextSession; document.body.classList.toggle("specialist-signed-in", Boolean(session)); $("specialistAuth").classList.toggle("hidden", Boolean(session)); $("specialistEditor").classList.toggle("hidden", !session); $("specialistAccountEmail").textContent = session?.user?.email || "";
     if (session) await loadProfile();
   }
   function parseServices() { return [...new Set($("profileServices").value.split(",").map((value) => value.trim()).filter(Boolean))].slice(0, 12); }
@@ -72,7 +83,7 @@
     $("saveSpecialistProfile").disabled = false;
     if (contactResult.error) { notice("Profil zapisano, ale nie udało się zapisać danych kontaktowych.", "error"); return; }
     $("specialistDanger").classList.remove("hidden"); $("specialistEditorTitle").textContent = "Edytuj profil specjalisty";
-    notice(profile.is_published ? "Profil został zapisany i jest widoczny w wyszukiwarce." : "Profil zapisano jako ukryty.", "success"); window.KancelioAnalytics?.track("specialist_profile_saved", { profession: profile.profession });
+    notice(profile.is_published ? "Profil został zapisany i przekazany do weryfikacji." : "Profil zapisano jako ukryty.", "success"); window.KancelioAnalytics?.track("specialist_profile_saved", { profession: profile.profession }); await loadProfile();
   }
 
   initOptions(); setAuthMode("login");
@@ -84,12 +95,12 @@
     catch (_error) { notice("Nie udało się zalogować lub utworzyć konta. Sprawdź dane.", "error"); } finally { $("specialistAuthSubmit").disabled = false; }
   });
   $("specialistGoogleLogin").addEventListener("click", async () => { const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: redirectUrl() } }); if (error) notice("Nie udało się rozpocząć logowania przez Google.", "error"); });
-  $("specialistLogout").addEventListener("click", () => client.auth.signOut()); $("specialistProfileForm").addEventListener("submit", saveProfile);
+  $("specialistProfileForm").addEventListener("submit", saveProfile);
   $("deleteSpecialistProfile").addEventListener("click", async () => {
     if (!profileId || !window.confirm("Usunąć profil specjalisty i dane kontaktowe? Tej operacji nie można cofnąć.")) return;
     $("deleteSpecialistProfile").disabled = true; const { error } = await client.from("specialist_profiles").delete().eq("id", profileId); $("deleteSpecialistProfile").disabled = false;
     if (error) { notice("Nie udało się usunąć profilu.", "error"); return; }
-    profileId = null; populate(null, null); $("specialistDanger").classList.add("hidden"); $("specialistEditorTitle").textContent = "Uzupełnij profil specjalisty"; notice("Profil został usunięty z katalogu.", "success");
+    profileId = null; populate(null, null); renderModeration(null); $("specialistDanger").classList.add("hidden"); $("specialistEditorTitle").textContent = "Uzupełnij profil specjalisty"; notice("Profil został usunięty z katalogu.", "success");
   });
   client.auth.getSession().then(({ data, error }) => { if (error) notice("Nie udało się odczytać sesji.", "error"); setSession(data.session); }); client.auth.onAuthStateChange((_event, nextSession) => setSession(nextSession));
 })();

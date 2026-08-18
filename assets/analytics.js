@@ -117,9 +117,23 @@
     document.body.append(button);
   }
 
-  function track(name) {
+  const allowedEventParameters = new Set([
+    "case_type", "profession", "stage", "source_type", "service", "calculator_type",
+  ]);
+
+  function safeEventParameters(parameters) {
+    if (!parameters || typeof parameters !== "object" || Array.isArray(parameters)) return {};
+    return Object.fromEntries(Object.entries(parameters).flatMap(([key, value]) => {
+      if (!allowedEventParameters.has(key) || !["string", "number", "boolean"].includes(typeof value)) return [];
+      const normalized = typeof value === "string" ? value.slice(0, 80) : value;
+      return [[key, normalized]];
+    }));
+  }
+
+  function track(name, parameters = {}) {
     if (consent !== "granted" || !tagLoaded || !window.gtag) return;
-    window.gtag("event", name);
+    if (typeof name !== "string" || !/^[a-z][a-z0-9_]{0,39}$/.test(name)) return;
+    window.gtag("event", name, safeEventParameters(parameters));
   }
 
   function observeProductEvents() {

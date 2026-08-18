@@ -89,7 +89,9 @@
     const identity = document.createElement("div");
     identity.append(element("h2", profile.name), element("div", profile.city, "office-city"));
     if (Number.isFinite(profile.distanceKm)) identity.append(element("div", profile.distanceKm < 1 ? `${Math.round(profile.distanceKm * 1000)} m od szukanego miejsca` : `${profile.distanceKm.toFixed(1)} km od szukanego miejsca`, "office-distance"));
-    head.append(identity, element("span", app.specialistProfessionById[profile.profession]?.label || profile.profession, "profession-badge"));
+    const badges = element("div", null, "specialist-badges"); badges.append(element("span", app.specialistProfessionById[profile.profession]?.label || profile.profession, "profession-badge"));
+    if (profile.is_verified) badges.append(element("span", "✓ Zweryfikowany", "verified-badge-small"));
+    head.append(identity, badges);
     card.append(head);
     if (profile.bio) card.append(element("p", profile.bio, "specialist-bio"));
     const services = element("div", null, "tags");
@@ -100,6 +102,7 @@
     card.append(stages);
     if (profile.remote_available) card.append(element("div", "Możliwa obsługa zdalna", "remote-note"));
     const actions = element("div", null, "card-actions");
+    if (profile.slug) { const profileLink = element("a", "Zobacz profil", "button secondary small"); profileLink.href = `/specjalista/${encodeURIComponent(profile.slug)}`; actions.append(profileLink); }
     const contact = element("button", "Pokaż kontakt", "button gold small"); contact.type = "button"; contact.addEventListener("click", () => openContact(profile)); actions.append(contact);
     const website = app.safeWebsite(profile.website);
     if (website) { const link = element("a", "Strona specjalisty", "button secondary small"); link.href = website; link.target = "_blank"; link.rel = "noopener noreferrer"; actions.append(link); }

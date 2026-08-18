@@ -3,3 +3,6 @@ verify_jwt = false
 
 [functions.reveal-specialist-contact]
 verify_jwt = false
+
+[functions.directory-sitemap]
+verify_jwt = false

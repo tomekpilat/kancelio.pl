@@ -97,6 +97,7 @@ Deno.serve(async (request) => {
       .select("id")
       .eq("id", officeId)
       .eq("is_published", true)
+      .eq("moderation_status", "verified")
       .maybeSingle();
 
     if (officeError) throw officeError;

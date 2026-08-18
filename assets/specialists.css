@@ -28,5 +28,11 @@
 .check-option input { width: auto; margin-top: 3px; accent-color: var(--gold-deep); }
 .specialist-danger { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-top: 28px; padding-top: 22px; border-top: 1px solid #e5caca; }
 .specialist-danger p { margin: 0; color: var(--muted); font-size: 12px; }
+body.specialist-signed-in .site-header .hero { max-width: 920px; padding: 24px 0 34px; }
+body.specialist-signed-in .site-header .hero h1 { margin: 8px 0; font-size: clamp(30px, 4vw, 40px); }
+body.specialist-signed-in .site-header .hero p { font-size: 15px; }
+body.specialist-signed-in .specialist-editor-main { padding-top: 30px; }
+body.specialist-signed-in .specialist-benefits { display: none; }
+body.specialist-signed-in .specialist-editor { margin-top: 0; }
 @media (max-width: 1050px) { .specialist-search-form { grid-template-columns: 1fr 1fr; } .specialist-search-form button { grid-column: 1 / -1; } }
-@media (max-width: 760px) { .specialist-search-form, .specialist-editor-grid, .specialist-benefits, .check-grid { grid-template-columns: 1fr; } .specialist-search-form button { grid-column: auto; } .directory-join, .specialist-danger { align-items: flex-start; flex-direction: column; } .specialist-card-head { flex-direction: column; } }
+@media (max-width: 760px) { .specialist-search-form, .specialist-editor-grid, .specialist-benefits, .check-grid { grid-template-columns: 1fr; } .specialist-search-form button { grid-column: auto; } .directory-join, .specialist-danger { align-items: flex-start; flex-direction: column; } .specialist-card-head { flex-direction: column; } body.specialist-signed-in .site-header .hero { padding: 18px 0 26px; } }

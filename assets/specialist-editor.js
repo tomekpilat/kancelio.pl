@@ -48,7 +48,7 @@
     populate(profile, contact); $("specialistEditorTitle").textContent = profileId ? "Edytuj profil specjalisty" : "Uzupełnij profil specjalisty"; $("specialistDanger").classList.toggle("hidden", !profileId);
   }
   async function setSession(nextSession) {
-    session = nextSession; $("specialistAuth").classList.toggle("hidden", Boolean(session)); $("specialistEditor").classList.toggle("hidden", !session); $("specialistAccountEmail").textContent = session?.user?.email || "";
+    session = nextSession; document.body.classList.toggle("specialist-signed-in", Boolean(session)); $("specialistAuth").classList.toggle("hidden", Boolean(session)); $("specialistEditor").classList.toggle("hidden", !session); $("specialistAccountEmail").textContent = session?.user?.email || "";
     if (session) await loadProfile();
   }
   function parseServices() { return [...new Set($("profileServices").value.split(",").map((value) => value.trim()).filter(Boolean))].slice(0, 12); }
@@ -84,7 +84,7 @@
     catch (_error) { notice("Nie udało się zalogować lub utworzyć konta. Sprawdź dane.", "error"); } finally { $("specialistAuthSubmit").disabled = false; }
   });
   $("specialistGoogleLogin").addEventListener("click", async () => { const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: redirectUrl() } }); if (error) notice("Nie udało się rozpocząć logowania przez Google.", "error"); });
-  $("specialistLogout").addEventListener("click", () => client.auth.signOut()); $("specialistProfileForm").addEventListener("submit", saveProfile);
+  $("specialistProfileForm").addEventListener("submit", saveProfile);
   $("deleteSpecialistProfile").addEventListener("click", async () => {
     if (!profileId || !window.confirm("Usunąć profil specjalisty i dane kontaktowe? Tej operacji nie można cofnąć.")) return;
     $("deleteSpecialistProfile").disabled = true; const { error } = await client.from("specialist_profiles").delete().eq("id", profileId); $("deleteSpecialistProfile").disabled = false;

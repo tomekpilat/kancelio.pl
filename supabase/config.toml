@@ -1,2 +1,5 @@
 [functions.reveal-office-contact]
 verify_jwt = false
+
+[functions.reveal-specialist-contact]
+verify_jwt = false

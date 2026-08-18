@@ -4,6 +4,7 @@
   const item = (key, itemType, category, title, description, source) => ({
     key, itemType, category, title, description, source,
   });
+  const specialist = (profession, stage, reason) => ({ profession, stage, reason });
 
   const official = {
     landRegister: "https://ekw.ms.gov.pl/eukw_ogol/menu.do",
@@ -127,6 +128,61 @@
       ],
     },
   };
+
+  const specialistsByCase = {
+    sale: [
+      specialist("real_estate_agent", "preparation", "Przygotowanie oferty, zdjęć, prezentacji i negocjacji warunków sprzedaży."),
+      specialist("property_valuator", "preparation", "Niezależna wycena i ustalenie realnego przedziału ceny."),
+      specialist("technical_inspector", "preparation", "Ocena stanu technicznego i ryzyk wymagających napraw lub ujawnienia."),
+      specialist("energy_auditor", "documents", "Sporządzenie świadectwa charakterystyki energetycznej."),
+      specialist("lawyer", "documents", "Analiza stanu prawnego, umów i niestandardowych ryzyk."),
+      specialist("notary", "transaction", "Przygotowanie i podpisanie aktu oraz wniosków wieczystoksięgowych."),
+      specialist("mortgage_broker", "transaction", "Koordynacja finansowania kupującego i warunków banku."),
+      specialist("tax_advisor", "aftercare", "Ocena PIT-39, kosztów i możliwości ulgi mieszkaniowej."),
+      specialist("insurance_agent", "aftercare", "Zamknięcie, przeniesienie lub aktualizacja ochrony ubezpieczeniowej."),
+      specialist("moving_company", "aftercare", "Przeprowadzka, transport i opróżnienie nieruchomości w terminie."),
+    ],
+    preliminary_sale: [
+      specialist("real_estate_agent", "preparation", "Weryfikacja oferty, umowy pośrednictwa i warunków negocjacji."),
+      specialist("technical_inspector", "preparation", "Oględziny lokalu lub domu przed zaciągnięciem zobowiązania."),
+      specialist("property_valuator", "preparation", "Wycena pomocna przy negocjacjach i finansowaniu."),
+      specialist("lawyer", "documents", "Analiza dokumentów i bezpiecznych warunków umowy."),
+      specialist("mortgage_broker", "transaction", "Sprawdzenie zdolności, terminów i warunków kredytu."),
+      specialist("notary", "transaction", "Notarialna forma umowy i zabezpieczenie roszczeń stron."),
+    ],
+    occasional_lease: [
+      specialist("lawyer", "preparation", "Ułożenie umowy, zasad płatności, odpowiedzialności i wypowiedzenia."),
+      specialist("insurance_agent", "preparation", "Dobór ochrony właściciela i ewentualnego OC najemcy."),
+      specialist("notary", "transaction", "Oświadczenie najemcy o poddaniu się egzekucji."),
+      specialist("property_manager", "aftercare", "Obsługa płatności, usterek, protokołów i kontaktu z najemcą."),
+      specialist("tax_advisor", "aftercare", "Rozliczenie przychodów z najmu i obowiązków podatkowych."),
+    ],
+    inheritance_rejection: [
+      specialist("lawyer", "preparation", "Ocena kolejności dziedziczenia, terminów i sytuacji małoletnich."),
+      specialist("notary", "transaction", "Przyjęcie oświadczenia i przygotowanie wypisów."),
+      specialist("translator", "documents", "Tłumaczenie zagranicznych aktów i dokumentów urzędowych."),
+      specialist("tax_advisor", "aftercare", "Ocena dalszych obowiązków podatkowych związanych ze spadkiem."),
+    ],
+    donation: [
+      specialist("property_valuator", "preparation", "Określenie wartości nieruchomości i punktu odniesienia dla rozliczeń."),
+      specialist("lawyer", "documents", "Analiza służebności, zabezpieczeń i skutków dla przyszłego spadku."),
+      specialist("notary", "transaction", "Sporządzenie aktu darowizny i wniosków do księgi wieczystej."),
+      specialist("tax_advisor", "aftercare", "Ocena zwolnień, grupy podatkowej i dodatkowych zgłoszeń."),
+      specialist("insurance_agent", "aftercare", "Aktualizacja właściciela i zakresu polisy nieruchomości."),
+    ],
+    power: [
+      specialist("lawyer", "preparation", "Ustalenie bezpiecznego zakresu umocowania i ograniczeń."),
+      specialist("translator", "documents", "Tłumaczenie dokumentu lub przygotowanie do użycia za granicą."),
+      specialist("notary", "transaction", "Sporządzenie pełnomocnictwa w wymaganej formie."),
+    ],
+    will: [
+      specialist("lawyer", "preparation", "Omówienie celów rodzinnych, zachowku i możliwych sporów."),
+      specialist("tax_advisor", "preparation", "Ocena skutków podatkowych planowanego przekazania majątku."),
+      specialist("notary", "transaction", "Sporządzenie testamentu i omówienie jego rejestracji."),
+      specialist("mediator", "aftercare", "Wsparcie rodziny w komunikacji przy konflikcie wokół planu spadkowego."),
+    ],
+  };
+  Object.entries(specialistsByCase).forEach(([caseType, specialists]) => { templates[caseType].specialists = specialists; });
 
   window.KANCELIO_CASE_TEMPLATES = Object.freeze(templates);
 })();

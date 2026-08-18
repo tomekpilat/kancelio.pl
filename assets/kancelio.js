@@ -17,6 +17,40 @@
   ];
 
   const serviceById = Object.fromEntries(services.map((service) => [service.id, service]));
+  const specialistProfessions = [
+    { id: "notary", label: "Notariusz" },
+    { id: "lawyer", label: "Prawnik / radca prawny" },
+    { id: "real_estate_agent", label: "Agent nieruchomości" },
+    { id: "property_valuator", label: "Rzeczoznawca majątkowy" },
+    { id: "technical_inspector", label: "Inspektor techniczny" },
+    { id: "mortgage_broker", label: "Ekspert kredytowy" },
+    { id: "tax_advisor", label: "Doradca podatkowy" },
+    { id: "energy_auditor", label: "Specjalista świadectw energetycznych" },
+    { id: "surveyor", label: "Geodeta" },
+    { id: "insurance_agent", label: "Doradca ubezpieczeniowy" },
+    { id: "property_manager", label: "Zarządca nieruchomości" },
+    { id: "moving_company", label: "Firma przeprowadzkowa" },
+    { id: "translator", label: "Tłumacz przysięgły" },
+    { id: "mediator", label: "Mediator" },
+  ];
+  const specialistProfessionById = Object.fromEntries(specialistProfessions.map((profession) => [profession.id, profession]));
+  const caseTypes = [
+    { id: "sale", label: "Sprzedaż mieszkania lub domu" },
+    { id: "preliminary_sale", label: "Umowa przedwstępna nieruchomości" },
+    { id: "occasional_lease", label: "Najem okazjonalny" },
+    { id: "inheritance_rejection", label: "Odrzucenie lub przyjęcie spadku" },
+    { id: "donation", label: "Darowizna nieruchomości" },
+    { id: "power", label: "Pełnomocnictwo notarialne" },
+    { id: "will", label: "Testament" },
+  ];
+  const caseTypeById = Object.fromEntries(caseTypes.map((caseType) => [caseType.id, caseType]));
+  const caseStages = [
+    { id: "preparation", label: "Przygotowanie" },
+    { id: "documents", label: "Dokumenty" },
+    { id: "transaction", label: "Umowa i formalności" },
+    { id: "aftercare", label: "Po zakończeniu" },
+  ];
+  const caseStageById = Object.fromEntries(caseStages.map((stage) => [stage.id, stage]));
   const config = window.KANCELIO_CONFIG || {};
   let client;
   let lastGeocodeRequestAt = 0;
@@ -51,7 +85,7 @@
 
   function mapPinIcon(type = "office") {
     if (!window.L?.divIcon) return undefined;
-    const label = type === "search" ? "Szukana lokalizacja" : "Kancelaria";
+    const label = type === "search" ? "Szukana lokalizacja" : type === "specialist" ? "Specjalista" : "Kancelaria";
     return window.L.divIcon({
       className: "k-map-marker-shell",
       html: `<span class="k-map-pin ${type === "search" ? "search" : ""}" role="img" aria-label="${label}"><span></span></span>`,
@@ -77,6 +111,12 @@
     config,
     services,
     serviceById,
+    specialistProfessions,
+    specialistProfessionById,
+    caseTypes,
+    caseTypeById,
+    caseStages,
+    caseStageById,
     isConfigured,
     getClient,
     safeWebsite,

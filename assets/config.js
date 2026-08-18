@@ -20,7 +20,7 @@ window.KANCELIO_CONFIG = Object.freeze({
   siteScript.defer = true;
   document.head.append(siteScript);
   const navScript = document.createElement("script");
-  navScript.src = "/assets/site-nav.js?v=20260818-3";
+  navScript.src = "/assets/site-nav.js?v=20260818-4";
   navScript.defer = true;
   document.head.append(navScript);
   const script = document.createElement("script");

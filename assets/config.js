@@ -16,15 +16,19 @@ window.KANCELIO_CONFIG = Object.freeze({
   favicon.href = "/assets/favicon.svg?v=20260818-1";
 
   const siteScript = document.createElement("script");
-  siteScript.src = "/assets/site-enhancements.js?v=20260818-1";
+  siteScript.src = "/assets/site-enhancements.js?v=20260818-2";
   siteScript.defer = true;
   document.head.append(siteScript);
+  const seoScript = document.createElement("script");
+  seoScript.src = "/assets/seo-structured-data.js?v=20260818-1";
+  seoScript.defer = true;
+  document.head.append(seoScript);
   const navScript = document.createElement("script");
-  navScript.src = "/assets/site-nav.js?v=20260818-4";
+  navScript.src = "/assets/site-nav.js?v=20260818-6";
   navScript.defer = true;
   document.head.append(navScript);
   const script = document.createElement("script");
-  script.src = "/assets/analytics.js?v=20260817-5";
+  script.src = "/assets/analytics.js?v=20260818-6";
   script.defer = true;
   document.head.append(script);
 })();

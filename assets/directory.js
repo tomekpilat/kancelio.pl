@@ -53,6 +53,7 @@
     card.className = "office-card";
     addText(card, "h2", office.name);
     addText(card, "div", office.city, "office-city");
+    if (office.is_verified) addText(card, "div", "✓ Profil zweryfikowany", "office-verified");
     if (Number.isFinite(office.distanceKm)) {
       addText(card, "div", `około ${office.distanceKm < 1 ? `${Math.round(office.distanceKm * 1000)} m` : `${office.distanceKm.toFixed(1)} km`} od szukanego miejsca`, "office-distance");
     }
@@ -66,6 +67,13 @@
 
     const actions = document.createElement("div");
     actions.className = "card-actions";
+    if (office.slug) {
+      const profileLink = document.createElement("a");
+      profileLink.className = "button secondary small";
+      profileLink.href = `/specjalista/${encodeURIComponent(office.slug)}`;
+      profileLink.textContent = "Zobacz profil";
+      actions.append(profileLink);
+    }
     const reveal = document.createElement("button");
     reveal.type = "button";
     reveal.className = "button gold small";

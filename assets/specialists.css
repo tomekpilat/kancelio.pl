@@ -8,6 +8,8 @@
 .specialist-card-head { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
 .specialist-card h2 { margin: 0 0 3px; font-size: 23px; }
 .profession-badge { flex: 0 0 auto; padding: 5px 9px; border: 1px solid var(--gold); border-radius: 999px; color: var(--gold-deep); background: #fbf7ef; font-size: 10px; font-weight: 700; }
+.specialist-badges { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+.verified-badge-small { padding: 5px 9px; border-radius: 999px; color: #287047; background: #e7f7ed; font-size: 10px; font-weight: 700; }
 .specialist-bio { margin: 13px 0 0; color: var(--muted); font-size: 13px; }
 .stage-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; }
 .stage-tag { padding: 3px 7px; border-radius: 3px; background: #e8edf5; color: #39506f; font-size: 10px; font-weight: 700; }
@@ -35,4 +37,4 @@ body.specialist-signed-in .specialist-editor-main { padding-top: 30px; }
 body.specialist-signed-in .specialist-benefits { display: none; }
 body.specialist-signed-in .specialist-editor { margin-top: 0; }
 @media (max-width: 1050px) { .specialist-search-form { grid-template-columns: 1fr 1fr; } .specialist-search-form button { grid-column: 1 / -1; } }
-@media (max-width: 760px) { .specialist-search-form, .specialist-editor-grid, .specialist-benefits, .check-grid { grid-template-columns: 1fr; } .specialist-search-form button { grid-column: auto; } .directory-join, .specialist-danger { align-items: flex-start; flex-direction: column; } .specialist-card-head { flex-direction: column; } body.specialist-signed-in .site-header .hero { padding: 18px 0 26px; } }
+@media (max-width: 760px) { .specialist-search-form, .specialist-editor-grid, .specialist-benefits, .check-grid { grid-template-columns: 1fr; } .specialist-search-form button { grid-column: auto; } .directory-join, .specialist-danger { align-items: flex-start; flex-direction: column; } .specialist-card-head { flex-direction: column; } .specialist-badges { justify-content: flex-start; } body.specialist-signed-in .site-header .hero { padding: 18px 0 26px; } }

@@ -82,6 +82,10 @@ h1 { margin: 14px 0 18px; font-size: clamp(38px, 6vw, 64px); line-height: 1.08; 
 .google-auth-button:disabled { opacity: .55; cursor: not-allowed; }
 .google-logo { width: 20px; height: 20px; flex: 0 0 20px; }
 .auth-legal { margin-top: 14px !important; font-size: 11px; text-align: center; }
+.owner-verification { margin: 18px 0; padding: 15px 17px; border-left: 3px solid var(--gold-deep); background: #fbf2dc; color: #5f4b2c; font-size: 13px; }
+.owner-verification.verified { border-color: #4d9469; background: #eaf7ef; color: #245b39; }
+.owner-verification.rejected { border-color: #a74242; background: #faeaea; color: #7c2828; }
+.owner-verification a { font-weight: 700; }
 .notice { margin: 18px 0; padding: 14px 17px; border-left: 3px solid var(--gold); background: #f4f0e8; }
 .notice.error { border-color: var(--danger); color: var(--danger); background: #fff3f3; }
 .notice.success { border-color: var(--success); color: var(--success); background: #effaf4; }
@@ -118,6 +122,7 @@ fieldset.field { margin: 0; padding: 0; border: 0; }
 .office-card h2 { margin: 0 0 3px; font-size: 23px; }
 .office-city { color: var(--gold-deep); font-size: 13px; font-weight: 700; }
 .office-distance { margin-top: 3px; color: var(--muted); font-size: 11px; }
+.office-verified { display: inline-block; margin-top: 8px; padding: 4px 8px; border-radius: 999px; color: #287047; background: #e7f7ed; font-size: 10px; font-weight: 700; }
 .tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 16px 0; }
 .tag { padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--muted); font-size: 11px; }
 .card-actions { display: flex; flex-wrap: wrap; gap: 9px; }

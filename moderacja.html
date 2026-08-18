@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Moderacja katalogu — Kancelio.pl</title>
+  <meta name="description" content="Wewnętrzny panel moderacji profili Kancelio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/directory.css?v=20260818-3"><link rel="stylesheet" href="/assets/moderation.css?v=20260818-1">
+</head>
+<body>
+  <header class="site-header"><nav class="nav shell" aria-label="Główna nawigacja"><a class="brand" href="/">Kancelio<span>.pl</span></a></nav><div class="moderation-hero shell"><div class="eyebrow">Panel wewnętrzny</div><h1>Moderacja katalogu</h1><p>Zweryfikuj dane partnerów przed pokazaniem ich klientom i kontroluj gotowość miasta do kampanii.</p></div></header>
+  <main class="moderation-main shell">
+    <div id="moderationNotice" class="notice hidden" role="status" aria-live="polite"></div>
+    <section id="moderationAuth" class="panel moderation-auth">
+      <div><div class="eyebrow">Dostęp administratora</div><h2>Zaloguj się do panelu</h2><p>Panel działa wyłącznie dla kont dodanych do listy administratorów Kancelio.</p></div>
+      <div><form id="moderationAuthForm" class="email-auth-form"><div class="auth-field"><label for="moderationEmail">E-mail</label><input id="moderationEmail" type="email" required autocomplete="email"></div><div class="auth-field"><label for="moderationPassword">Hasło</label><input id="moderationPassword" type="password" required minlength="8" autocomplete="current-password"></div><button class="button auth-submit" type="submit">Zaloguj się</button></form><div class="auth-divider"><span>lub</span></div><button id="moderationGoogleLogin" class="google-auth-button" type="button"><span>Kontynuuj przez Google</span></button></div>
+    </section>
+    <section id="moderationDenied" class="panel hidden"><h2>Brak uprawnień</h2><p>To konto jest zalogowane, ale nie znajduje się na liście administratorów platformy.</p></section>
+    <section id="moderationDashboard" class="hidden">
+      <div class="moderation-heading"><div><div class="eyebrow">Zaufany katalog</div><h2>Profile do sprawdzenia</h2><p>Każda zmiana danych publicznych lub kontaktowych przywraca status oczekujący.</p></div><a class="button secondary" href="/weryfikacja-specjalistow.html">Zasady weryfikacji</a></div>
+      <form id="moderationFilters" class="moderation-filters panel"><label>Status<select id="moderationStatus"><option value="pending">Oczekujące</option><option value="rejected">Odrzucone</option><option value="verified">Zweryfikowane</option><option value="">Wszystkie</option></select></label><label>Miasto do oceny<input id="moderationCity" autocomplete="address-level2" placeholder="np. Warszawa"></label><button class="button" type="submit">Odśwież</button></form>
+      <section aria-labelledby="readinessTitle"><div class="section-heading"><h2 id="readinessTitle">Gotowość miast do kampanii</h2><p>Minimalny próg to 15 opublikowanych i zweryfikowanych profili. Docelowo wymagamy też różnorodności specjalizacji.</p></div><div id="readinessGrid" class="readiness-grid"></div></section>
+      <section aria-labelledby="queueTitle"><div class="section-heading"><h2 id="queueTitle">Kolejka moderacji</h2><p id="moderationSummary">Pobieramy profile…</p></div><div id="moderationList" class="moderation-list"></div></section>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="footer-row shell"><span>Kancelio.pl · panel moderacji</span><a href="/privacy.html">Prywatność</a></div></footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/assets/config.js?v=20260818-4" defer></script><script src="/assets/kancelio.js?v=20260818-3" defer></script><script src="/assets/moderation.js?v=20260818-1" defer></script>
+</body>
+</html>

@@ -1,6 +1,25 @@
 (function () {
   "use strict";
 
+  const globalStyle = document.createElement("style");
+  globalStyle.textContent = `.k-trust-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin:16px auto 0;font:600 11px/1.4 Inter,system-ui,sans-serif}.k-trust-links a{color:inherit;text-decoration:none}.k-trust-links a:hover{text-decoration:underline}`;
+  document.head.append(globalStyle);
+  const pageFooter = document.querySelector("footer");
+  if (pageFooter && !pageFooter.querySelector(".k-trust-links")) {
+    const trustLinks = document.createElement("nav"); trustLinks.className = "k-trust-links"; trustLinks.setAttribute("aria-label", "Informacje o Kancelio");
+    [["/o-kancelio.html", "O Kancelio"], ["/weryfikacja-specjalistow.html", "Weryfikacja specjalistów"], ["/standard-redakcyjny.html", "Standard redakcyjny"], ["/kontakt.html", "Kontakt"]].forEach(([href, label]) => { const link = document.createElement("a"); link.href = href; link.textContent = label; trustLinks.append(link); });
+    pageFooter.append(trustLinks);
+  }
+  if (location.pathname === "/" || location.pathname === "/index.html") {
+    const hero = document.querySelector("header .hero");
+    if (hero) {
+      const eyebrow = hero.querySelector(".eyebrow"); const heading = hero.querySelector("h1"); const lead = hero.querySelector("p");
+      if (eyebrow) eyebrow.textContent = "Sprzedaż nieruchomości bez chaosu";
+      if (heading) heading.textContent = "Ogarnij całą sprzedaż mieszkania lub domu.";
+      if (lead) lead.textContent = "Od pierwszej decyzji i dokumentów do podpisania umowy, przekazania nieruchomości i przepisania mediów — policz koszty i prowadź cały proces w Kancelio.";
+    }
+  }
+
   const calculator = document.querySelector(".calculator");
   if (!calculator) return;
 
@@ -53,12 +72,11 @@
     type.addEventListener("change", update); update(); leadSearch.append(save);
   }
 
-  const footer = document.querySelector("footer");
-  if (footer && !footer.querySelector('a[href="/privacy.html"]')) {
-    footer.append(" · ");
+  if (pageFooter && !pageFooter.querySelector('a[href="/privacy.html"]')) {
+    pageFooter.append(" · ");
     const privacy = document.createElement("a");
     privacy.href = "/privacy.html";
     privacy.textContent = "Prywatność i cookies";
-    footer.append(privacy);
+    pageFooter.append(privacy);
   }
 })();

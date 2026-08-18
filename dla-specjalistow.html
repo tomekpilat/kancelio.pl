@@ -4,9 +4,10 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dodaj profil specjalisty — Kancelio.pl</title>
   <meta name="description" content="Dodaj bezpłatny profil specjalisty i docieraj do klientów na właściwym etapie sprzedaży, najmu, spadku i innych procesów.">
+  <link rel="canonical" href="https://kancelio.pl/dla-specjalistow.html">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/directory.css?v=20260818-2"><link rel="stylesheet" href="/assets/specialists.css?v=20260818-2">
+  <link rel="stylesheet" href="/assets/directory.css?v=20260818-3"><link rel="stylesheet" href="/assets/specialists.css?v=20260818-3">
 </head>
 <body>
   <header class="site-header"><nav class="nav shell" aria-label="Główna nawigacja"><a class="brand" href="/">Kancelio<span>.pl</span></a></nav><div class="hero center shell"><div class="eyebrow">Dołącz do sieci Kancelio</div><h1>Docieraj do klienta na właściwym etapie sprawy.</h1><p>Nie budujemy zwykłej listy firm. Twój profil pojawia się przy konkretnym rodzaju procesu i momencie, w którym Twoja pomoc ma znaczenie.</p></div></header>
@@ -24,6 +25,7 @@
 
     <section id="specialistEditor" class="specialist-editor hidden" aria-labelledby="specialistEditorTitle">
       <div class="dashboard-head"><div><div class="eyebrow">Panel specjalisty</div><h2 id="specialistEditorTitle">Uzupełnij profil</h2><p id="specialistAccountEmail"></p></div><div class="account-actions"><a class="button secondary" href="/specjalisci.html">Zobacz katalog</a></div></div>
+      <div id="specialistModerationStatus" class="owner-verification hidden" role="status"></div>
       <form id="specialistProfileForm" class="panel">
         <div class="specialist-editor-grid">
           <div class="field"><label for="profileName">Nazwa firmy lub imię i nazwisko</label><input id="profileName" required minlength="3" maxlength="160"></div>
@@ -39,7 +41,7 @@
           <div class="field"><label for="profileAddress">Adres</label><input id="profileAddress" maxlength="220" autocomplete="street-address"></div>
           <div class="field"><label for="profilePostalCode">Kod pocztowy</label><input id="profilePostalCode" pattern="[0-9]{2}-[0-9]{3}" maxlength="6" placeholder="00-001"></div>
           <label class="check-option field full"><input id="profileRemote" type="checkbox"><span>Oferuję również obsługę zdalną</span></label>
-          <label class="check-option field full"><input id="profilePublished" type="checkbox" checked><span>Profil ma być widoczny w katalogu</span></label>
+          <label class="check-option field full"><input id="profilePublished" type="checkbox" checked><span>Profil ma być widoczny w katalogu po weryfikacji</span></label>
         </div>
         <div class="form-actions"><button id="saveSpecialistProfile" class="button" type="submit">Zapisz profil</button><span id="specialistSaveHint">Dane kontaktowe będą chronione przed botami.</span></div>
         <div id="specialistDanger" class="specialist-danger hidden"><p>Usunięcie profilu wycofa go z wyszukiwarki i usunie dane kontaktowe.</p><button id="deleteSpecialistProfile" class="button secondary danger" type="button">Usuń profil</button></div>
@@ -47,6 +49,6 @@
     </section>
   </main>
   <footer class="site-footer"><div class="footer-row shell"><span>Kancelio.pl · partnerzy całego procesu</span><a href="/privacy.html">Prywatność i cookies</a></div></footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/assets/config.js?v=20260818-4" defer></script><script src="/assets/kancelio.js?v=20260818-3" defer></script><script src="/assets/specialist-editor.js?v=20260818-2" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="/assets/config.js?v=20260818-4" defer></script><script src="/assets/kancelio.js?v=20260818-3" defer></script><script src="/assets/specialist-editor.js?v=20260818-3" defer></script>
 </body>
 </html>

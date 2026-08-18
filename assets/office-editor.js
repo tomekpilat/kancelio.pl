@@ -35,6 +35,7 @@
   const geocodeStatus = document.getElementById("officeGeocodeStatus");
   const dangerZone = document.getElementById("officeDangerZone");
   const deleteOfficeButton = document.getElementById("deleteOffice");
+  const moderationStatus = document.getElementById("officeModerationStatus");
 
   const cityCenters = {
     warszawa: [52.2297, 21.0122], krakow: [50.0647, 19.945], lodz: [51.7592, 19.456],
@@ -203,11 +204,24 @@
     }
   }
 
+  function renderModeration(office) {
+    moderationStatus.replaceChildren();
+    if (!office) { moderationStatus.className = "owner-verification hidden"; return; }
+    const verification = office.moderation_status ?? "pending";
+    moderationStatus.className = `owner-verification ${verification}`;
+    if (verification === "verified") {
+      moderationStatus.append("Wizytówka zweryfikowana. Jest widoczna w katalogu. ");
+      if (office.slug) { const link = document.createElement("a"); link.href = `/specjalista/${encodeURIComponent(office.slug)}`; link.textContent = "Zobacz publiczny profil →"; moderationStatus.append(link); }
+    } else if (verification === "rejected") {
+      moderationStatus.textContent = `Wizytówka wymaga poprawy przed publikacją.${office.moderation_note ? ` Powód: ${office.moderation_note}` : ""}`;
+    } else moderationStatus.textContent = "Wizytówka czeka na weryfikację Kancelio. Po akceptacji pojawi się w publicznym katalogu.";
+  }
+
   async function loadOffice() {
     hideStatus();
     const { data: office, error: officeError } = await client
       .from("notary_offices")
-      .select("id, name, city, services, website, public_latitude, public_longitude")
+      .select("id, slug, name, city, services, website, public_latitude, public_longitude, moderation_status, moderation_note, verified_at")
       .maybeSingle();
     if (officeError) {
       showStatus("Nie udało się pobrać wizytówki. Spróbuj ponownie.", "error");
@@ -229,6 +243,7 @@
       }
     }
     populateForm(office, contact);
+    renderModeration(office);
     saveButton.textContent = officeId ? "Zapisz zmiany" : "Opublikuj wizytówkę";
     editorTitle.textContent = officeId ? "Edytuj profil kancelarii" : "Uzupełnij profil kancelarii";
     dangerZone.classList.toggle("hidden", !officeId);
@@ -384,10 +399,11 @@
         .eq("id", officeId);
       if (publishResult.error) throw publishResult.error;
 
-      showStatus("Wizytówka została opublikowana i jest już dostępna w wyszukiwarce.", "success");
+      showStatus("Wizytówka została zapisana i przekazana do weryfikacji.", "success");
       saveButton.textContent = "Zapisz zmiany";
       editorTitle.textContent = "Edytuj profil kancelarii";
       dangerZone.classList.remove("hidden");
+      await loadOffice();
     } catch (error) {
       console.error(error);
       showStatus("Nie udało się zapisać wizytówki. Sprawdź dane i spróbuj ponownie.", "error");
@@ -422,6 +438,7 @@
     coordinateLabel.textContent = "Nie ustawiono punktu";
     geocodeStatus.textContent = "";
     populateForm(null, null);
+    renderModeration(null);
     dangerZone.classList.add("hidden");
     editorTitle.textContent = "Uzupełnij profil kancelarii";
     saveButton.textContent = "Opublikuj wizytówkę";

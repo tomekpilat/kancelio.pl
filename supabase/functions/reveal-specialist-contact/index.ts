@@ -63,6 +63,7 @@ Deno.serve(async (request) => {
       .select("id")
       .eq("id", profileId)
       .eq("is_published", true)
+      .eq("moderation_status", "verified")
       .maybeSingle();
     if (profileError) throw profileError;
     if (!profile) return new Response(JSON.stringify({ error: "Profile not found" }), { status: 404, headers: { ...jsonHeaders, ...cors } });

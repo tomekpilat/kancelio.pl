@@ -14,6 +14,7 @@
   ];
   let authClient = null;
   let currentSession = null;
+  let currentIsAdmin = false;
 
   const style = document.createElement("style");
   style.textContent = `
@@ -21,7 +22,7 @@
     .k-site-nav .brand,.k-site-nav .logo{flex:0 0 auto;color:#fff;font:700 25px/1 "Playfair Display",Georgia,serif;letter-spacing:.04em;white-space:nowrap;text-decoration:none}
     .k-site-nav .brand span,.k-site-nav .logo span{color:#c5a880}
     .k-site-menu{display:flex;align-items:center;justify-content:flex-end;gap:17px;min-width:0}
-    .k-site-links{display:flex;align-items:center;gap:17px;white-space:nowrap}
+    .k-site-links{display:flex;flex:0 0 auto;align-items:center;gap:17px;white-space:nowrap}
     .k-site-links>a{position:relative;color:#f5f5f7;font-size:12px;font-weight:650;text-decoration:none}
     .k-site-links>a:hover,.k-site-links>a:focus-visible,.k-site-links>a.is-active{color:#c5a880}
     .k-site-links>a.is-active::after{content:"";position:absolute;right:0;bottom:-8px;left:0;height:1px;background:#c5a880}
@@ -61,6 +62,7 @@
         <a href="/moje-sprawy.html">Panel: moje sprawy</a>
         <a href="/dla-specjalistow.html">Panel specjalisty</a>
         <a href="/dla-kancelarii.html">Panel kancelarii</a>
+        ${currentIsAdmin ? '<a href="/moderacja.html">Moderacja katalogu</a>' : ""}
         <button type="button" data-k-signout>Wyloguj się</button>
       </div>`;
   }
@@ -149,15 +151,21 @@
       authClient = await getAuthClient();
       if (!authClient) return;
       const { data } = await authClient.auth.getSession();
-      currentSession = data.session;
-      renderAll();
-      authClient.auth.onAuthStateChange((_event, session) => {
-        currentSession = session;
-        renderAll();
-      });
+      await updateSession(data.session);
+      authClient.auth.onAuthStateChange((_event, session) => { updateSession(session); });
     } catch (error) {
       console.warn("Kancelio navigation auth unavailable", error);
     }
+  }
+
+  async function updateSession(session) {
+    currentSession = session;
+    currentIsAdmin = false;
+    if (session?.user && authClient) {
+      const { data } = await authClient.rpc("is_platform_admin");
+      currentIsAdmin = Boolean(data);
+    }
+    renderAll();
   }
 
   document.addEventListener("click", () => {

@@ -1,0 +1,22 @@
+.trust-hero { padding: 62px 0 78px; max-width: 900px; }
+.trust-hero h1 { margin: 12px 0; font-size: clamp(38px, 7vw, 66px); }
+.trust-hero p { max-width: 780px; margin: 0; color: #c9ced8; font-size: 18px; }
+.trust-main { padding: 64px 0 84px; }
+.trust-intro { max-width: 850px; margin-bottom: 54px; font-size: 19px; line-height: 1.7; }
+.trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 30px 0 58px; }
+.trust-card { padding: 26px; border: 1px solid var(--line); background: #fff; }
+.trust-card h2, .trust-card h3 { margin: 6px 0 10px; }
+.trust-card p { margin: 0; color: var(--muted); }
+.trust-section { max-width: 900px; margin: 58px 0; }
+.trust-section h2 { margin: 0 0 15px; font-size: clamp(28px, 4vw, 40px); }
+.trust-section p, .trust-section li { color: var(--muted); line-height: 1.75; }
+.trust-section li + li { margin-top: 8px; }
+.trust-steps { counter-reset: trust-step; display: grid; gap: 12px; padding: 0; list-style: none; }
+.trust-steps li { position: relative; padding: 20px 22px 20px 68px; border: 1px solid var(--line); background: #fff; }
+.trust-steps li::before { counter-increment: trust-step; content: counter(trust-step); position: absolute; top: 18px; left: 20px; display: grid; width: 32px; height: 32px; place-items: center; border: 1px solid var(--gold); border-radius: 50%; color: var(--gold-deep); font-weight: 700; }
+.trust-callout { display: flex; justify-content: space-between; gap: 30px; align-items: center; padding: 34px; border: 1px solid var(--gold); background: #f4f0e8; }
+.trust-callout h2 { margin: 0 0 7px; }
+.trust-callout p { margin: 0; color: var(--muted); }
+.contact-box { max-width: 760px; padding: 34px; border: 1px solid var(--gold); background: #fff; box-shadow: var(--shadow); }
+.contact-box a.contact-email { display: inline-block; margin: 14px 0; color: var(--gold-deep); font: 600 clamp(24px, 5vw, 38px) "Playfair Display", serif; }
+@media (max-width: 760px) { .trust-grid { grid-template-columns: 1fr; } .trust-callout { align-items: flex-start; flex-direction: column; } .trust-hero { padding: 44px 0 58px; } }
